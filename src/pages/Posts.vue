@@ -1,0 +1,175 @@
+<template>
+  <q-page>
+    <div class="row justify-center q-mt-3">
+      <div class="col-xs-12 col-sm-10 col-md-8">
+        <q-btn unelevated class="q-mt-lg q-ml-md" color="primary" @click="routeNewPost">
+          <div class="row items-center no-wrap">
+            <q-icon name="add" size="20px"></q-icon>
+            <div>새글 작성하기</div>
+          </div>
+        </q-btn>
+        <q-list class="q-mt-lg">
+          <q-item clickable v-for="each in mainContents" :key="each.id">
+            <q-item-section avatar>
+              <q-avatar rounded size="40px">
+                <img :src="each.photo" />
+              </q-avatar>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ each.title }}</q-item-label>
+              <q-item-label caption lines="1">{{ each.description }}</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-btn unelevated outline round icon="delete" dense size="sm"></q-btn>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </div>
+    </div>
+  </q-page>
+</template>
+
+<script>
+export default {
+  name: "Posts",
+  data() {
+    return {
+      mainContents: [
+        {
+          id: "1",
+          title: "'~를 신중히 여기다.' 영어로 어떻게 할까?",
+          description:
+            "'진지하게 생각해주신다면 감사하겠습니다.' / '너는 어떠한 것도 신중하게 생각하지 않아.' 같은 말, 어떻게 할까요?",
+          photo:
+            "https://images.unsplash.com/photo-1455354269813-737d9df115bb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1283&q=80"
+        },
+        {
+          id: "2",
+          title: "'catch up' 무슨 의미일까요?",
+          description:
+            "'catch up'은 보통 with나 on과 많이 어울려서 쓰이는 데요. 누군가를 따라잡거나, 밀린 내용들을 따라가거나, 안 본지 꽤 된 사이일 때 못다한 이야기를 한다는 의미에요.",
+          photo:
+            "https://images.unsplash.com/photo-1501621965065-c6e1cf6b53e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80"
+        },
+        {
+          id: "3",
+          title: "'catch up' 무슨 의미일까요?",
+          description:
+            "'catch up'은 보통 with나 on과 많이 어울려서 쓰이는 데요. 누군가를 따라잡거나, 밀린 내용들을 따라가거나, 안 본지 꽤 된 사이일 때 못다한 이야기를 한다는 의미에요.",
+          photo:
+            "https://images.unsplash.com/photo-1421151051865-b98b5f93dc13?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+        },
+        {
+          id: "4",
+          title: "'catch up' 무슨 의미일까요?",
+          description:
+            "'catch up'은 보통 with나 on과 많이 어울려서 쓰이는 데요. 누군가를 따라잡거나, 밀린 내용들을 따라가거나, 안 본지 꽤 된 사이일 때 못다한 이야기를 한다는 의미에요.",
+          photo:
+            "https://images.unsplash.com/photo-1517840088901-2fb4f43641df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"
+        },
+        {
+          id: "5",
+          title: "'catch up' 무슨 의미일까요?",
+          description:
+            "'catch up'은 보통 with나 on과 많이 어울려서 쓰이는 데요. 누군가를 따라잡거나, 밀린 내용들을 따라가거나, 안 본지 꽤 된 사이일 때 못다한 이야기를 한다는 의미에요.",
+          photo:
+            "https://images.unsplash.com/photo-1471201310397-b4dc5f0c49c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=701&q=80"
+        },
+        {
+          id: "6",
+          title: "'catch up' 무슨 의미일까요?",
+          description:
+            "'catch up'은 보통 with나 on과 많이 어울려서 쓰이는 데요. 누군가를 따라잡거나, 밀린 내용들을 따라가거나, 안 본지 꽤 된 사이일 때 못다한 이야기를 한다는 의미에요.",
+          photo:
+            "https://images.unsplash.com/photo-1501621965065-c6e1cf6b53e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80"
+        },
+        {
+          id: "7",
+          title: "'catch up' 무슨 의미일까요?",
+          description:
+            "'catch up'은 보통 with나 on과 많이 어울려서 쓰이는 데요. 누군가를 따라잡거나, 밀린 내용들을 따라가거나, 안 본지 꽤 된 사이일 때 못다한 이야기를 한다는 의미에요.",
+          photo:
+            "https://images.unsplash.com/photo-1523051121227-d6626e4bb9f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+        },
+        {
+          id: "8",
+          title: "'catch up' 무슨 의미일까요?",
+          description:
+            "'catch up'은 보통 with나 on과 많이 어울려서 쓰이는 데요. 누군가를 따라잡거나, 밀린 내용들을 따라가거나, 안 본지 꽤 된 사이일 때 못다한 이야기를 한다는 의미에요.",
+          photo:
+            "https://images.unsplash.com/photo-1523051121227-d6626e4bb9f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+        },
+        {
+          id: "9",
+          title: "'catch up' 무슨 의미일까요?",
+          description:
+            "'catch up'은 보통 with나 on과 많이 어울려서 쓰이는 데요. 누군가를 따라잡거나, 밀린 내용들을 따라가거나, 안 본지 꽤 된 사이일 때 못다한 이야기를 한다는 의미에요.",
+          photo:
+            "https://images.unsplash.com/photo-1523051121227-d6626e4bb9f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+        },
+        {
+          id: "10",
+          title: "'catch up' 무슨 의미일까요?",
+          description:
+            "'catch up'은 보통 with나 on과 많이 어울려서 쓰이는 데요. 누군가를 따라잡거나, 밀린 내용들을 따라가거나, 안 본지 꽤 된 사이일 때 못다한 이야기를 한다는 의미에요.",
+          photo:
+            "https://images.unsplash.com/photo-1523051121227-d6626e4bb9f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+        },
+        {
+          id: "11",
+          title: "'catch up' 무슨 의미일까요?",
+          description:
+            "'catch up'은 보통 with나 on과 많이 어울려서 쓰이는 데요. 누군가를 따라잡거나, 밀린 내용들을 따라가거나, 안 본지 꽤 된 사이일 때 못다한 이야기를 한다는 의미에요.",
+          photo:
+            "https://images.unsplash.com/photo-1523051121227-d6626e4bb9f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+        },
+        {
+          id: "12",
+          title: "'catch up' 무슨 의미일까요?",
+          description:
+            "'catch up'은 보통 with나 on과 많이 어울려서 쓰이는 데요. 누군가를 따라잡거나, 밀린 내용들을 따라가거나, 안 본지 꽤 된 사이일 때 못다한 이야기를 한다는 의미에요.",
+          photo:
+            "https://images.unsplash.com/photo-1523051121227-d6626e4bb9f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+        },
+        {
+          id: "13",
+          title: "'catch up' 무슨 의미일까요?",
+          description:
+            "'catch up'은 보통 with나 on과 많이 어울려서 쓰이는 데요. 누군가를 따라잡거나, 밀린 내용들을 따라가거나, 안 본지 꽤 된 사이일 때 못다한 이야기를 한다는 의미에요.",
+          photo:
+            "https://images.unsplash.com/photo-1523051121227-d6626e4bb9f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+        },
+        {
+          id: "14",
+          title: "'catch up' 무슨 의미일까요?",
+          description:
+            "'catch up'은 보통 with나 on과 많이 어울려서 쓰이는 데요. 누군가를 따라잡거나, 밀린 내용들을 따라가거나, 안 본지 꽤 된 사이일 때 못다한 이야기를 한다는 의미에요.",
+          photo:
+            "https://images.unsplash.com/photo-1523051121227-d6626e4bb9f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+        },
+        {
+          id: "15",
+          title: "'catch up' 무슨 의미일까요?",
+          description:
+            "'catch up'은 보통 with나 on과 많이 어울려서 쓰이는 데요. 누군가를 따라잡거나, 밀린 내용들을 따라가거나, 안 본지 꽤 된 사이일 때 못다한 이야기를 한다는 의미에요.",
+          photo:
+            "https://images.unsplash.com/photo-1523051121227-d6626e4bb9f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+        }
+      ]
+    };
+  },
+  methods: {
+    routeNewPost() {
+      this.$router.push("/posts/new");
+    }
+  }
+};
+</script>
+<style lang="scss" scoped>
+.new-post-btn {
+  cursor: pointer;
+  &:hover {
+    background-color: $blue-1;
+  }
+}
+</style>

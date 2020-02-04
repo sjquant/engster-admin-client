@@ -7,7 +7,6 @@
           <q-toolbar-title>Engster Admin</q-toolbar-title>
         </q-toolbar>
       </q-header>
-
       <q-drawer v-model="drawer" show-if-above :width="272" :breakpoint="768" bordered>
         <q-scroll-area class="fit">
           <q-list class="menu-list">

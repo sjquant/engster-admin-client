@@ -5,29 +5,33 @@
       :maximized="true"
       transition-show="slide-up"
       transition-hide="slide-down"
+      @hide="$emit('update:open', false)"
     >
-      <q-card class="bg-primary text-white">
-        <q-bar>
+      <q-card class="bg-white">
+        <q-bar class="bg-primary">
           <q-space />
-          <q-btn dense flat icon="close" @click="$emit('update:open', false)">
+          <q-btn dense flat icon="close" class="text-white" @click="$emit('update:open', false)">
             <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
         </q-bar>
-
-        <q-card-section>
-          <div class="text-h6">Alert</div>
-        </q-card-section>
-
-        <q-card-section
-          class="q-pt-none"
-        >Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.</q-card-section>
+        <div class="row justify-center q-mt-lg q-mx-md">
+          <div class="col-xs-12 col-sm-8 col-md-6">
+            <example-search-input :searchText.sync="searchText" @search-started="searchExample"></example-search-input>
+            <example-search-list></example-search-list>
+          </div>
+        </div>
       </q-card>
     </q-dialog>
   </div>
 </template>
 <script>
+import ExampleSearchInput from "./ExampleSearchInput";
+import ExampleSearchList from "./ExampleSearchList";
 export default {
-  created() {},
+  components: {
+    ExampleSearchInput,
+    ExampleSearchList
+  },
   props: {
     open: {
       type: Boolean,
@@ -36,8 +40,14 @@ export default {
   },
   data() {
     return {
-      maximizedToggle: true
+      maximizedToggle: true,
+      searchText: ""
     };
+  },
+  methods: {
+    searchExample() {
+      console.log(this.searchText);
+    }
   }
 };
 </script>

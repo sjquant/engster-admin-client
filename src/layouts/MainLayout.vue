@@ -13,7 +13,7 @@
             <q-item
               clickable
               v-ripple
-              :active="currentMenu===each.menu"
+              :active="each.name===$route.name"
               active-class="bg-blue-1"
               v-for="each in menuList"
               v-bind:key="each.name"
@@ -22,18 +22,17 @@
               <q-item-section avatar>
                 <q-icon :name="each.icon" />
               </q-item-section>
-              <q-item-section>{{each.name}}</q-item-section>
+              <q-item-section>{{each.label}}</q-item-section>
             </q-item>
           </q-list>
         </q-scroll-area>
       </q-drawer>
-
       <q-page-container>
         <router-view></router-view>
       </q-page-container>
     </q-layout>
   </div>
-</template>
+</template> 
 
 <script>
 export default {
@@ -42,30 +41,18 @@ export default {
       drawer: false,
       menuList: [
         {
-          name: "포스팅 관리",
-          menu: "Posts",
-          icon: "post_add",
-          path: "/posts"
-        },
-        {
-          name: "컨텐츠 관리",
-          menu: "Contents",
+          name: "contents",
+          label: "컨텐츠 관리",
           icon: "view_list",
-          path: "/contents"
-        }
-      ]
+          path: "/contents",
+        },
+      ],
     };
-  },
-  computed: {
-    currentMenu() {
-      if (this.$route.path.match(/(^\/?$)|(^\/posts\/?$)/g)) return "Posts";
-      else if (this.$route.path.match(/^\/contents\/?$/g)) return "Contents";
-    }
   },
   methods: {
     routeMenu(path) {
       this.$router.push(path);
-    }
-  }
+    },
+  },
 };
 </script>

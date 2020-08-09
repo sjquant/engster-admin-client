@@ -1,11 +1,14 @@
 <template>
-  <q-page class="flex flex-center">
-    <img alt="Quasar logo" src="~assets/quasar-logo-full.svg" />
+  <q-page>
+    <ContentCardList />
   </q-page>
 </template>
 
 <script>
+import ContentCardList from "../components/ContentCardList.vue";
+
 export default {
   name: "Contents",
+  components: { ContentCardList },
 };
 </script>

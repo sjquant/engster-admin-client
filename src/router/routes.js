@@ -1,22 +1,24 @@
-
 const routes = [
   {
-    path: '/',
-    component: () => import('layouts/DefaultLayout.vue'),
+    path: "/",
+    component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: 'posts', component: () => import('pages/Posts.vue'), alias: "" },
-      { path: 'posts/new', component: () => import('pages/NewPost.vue') },
-      { path: 'contents', component: () => import('pages/Contents.vue') }
-    ]
-  }
-]
+      {
+        path: "contents",
+        name: "content",
+        component: () => import("pages/Contents.vue"),
+        alias: "/",
+      },
+    ],
+  },
+];
 
 // Always leave this as last one
-if (process.env.MODE !== 'ssr') {
+if (process.env.MODE !== "ssr") {
   routes.push({
-    path: '*',
-    component: () => import('pages/Error404.vue')
-  })
+    path: "*",
+    component: () => import("pages/Error404.vue"),
+  });
 }
 
-export default routes
+export default routes;

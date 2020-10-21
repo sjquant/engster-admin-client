@@ -9,6 +9,11 @@ const routes = [
         component: () => import("pages/Contents.vue"),
         alias: "/",
       },
+      {
+        path: "contents/create",
+        name: "contentCreate",
+        component: () => import("pages/ContentsCreate.vue"),
+      },
     ],
   },
 ];

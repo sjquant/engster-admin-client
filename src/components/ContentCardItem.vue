@@ -17,9 +17,6 @@
             >{{ each.name }}</q-badge
           >
         </div>
-        <div>
-          <q-badge>{{ content.category_name }}</q-badge>
-        </div>
       </q-card-section>
     </q-card>
   </div>

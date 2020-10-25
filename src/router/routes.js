@@ -5,9 +5,14 @@ const routes = [
     children: [
       {
         path: "contents",
-        name: "content",
+        name: "contentList",
         component: () => import("pages/Contents.vue"),
         alias: "/",
+      },
+      {
+        path: "contents/create",
+        name: "contentCreate",
+        component: () => import("pages/ContentsCreate.vue"),
       },
     ],
   },

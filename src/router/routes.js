@@ -5,7 +5,7 @@ const routes = [
     children: [
       {
         path: "contents",
-        name: "content",
+        name: "contentList",
         component: () => import("pages/Contents.vue"),
         alias: "/",
       },

@@ -8,4 +8,7 @@ export default {
   SET_CONTENT_HAS_NEXT(store, status) {
     store.contentHasNext = status;
   },
+  SET_ALL_GENRES(store, genres) {
+    store.allGenres = genres
+  }
 };

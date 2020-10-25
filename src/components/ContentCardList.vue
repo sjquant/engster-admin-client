@@ -17,12 +17,12 @@ import ContentCardItem from "../components/ContentCardItem.vue";
 
 export default {
   components: { ContentCardCreate, ContentCardItem },
-  created() {
-    this.FETCH_CONTENTS({ cursor: this.contentCursor });
-  },
   computed: {
     ...mapState(["contents"]),
     ...mapGetters(["contentCursor"]),
+  },
+  created() {
+    this.FETCH_CONTENTS({ cursor: this.contentCursor });
   },
   methods: {
     ...mapActions(["FETCH_CONTENTS"]),

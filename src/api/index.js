@@ -1,6 +1,6 @@
 import { request } from "../utils/axios";
 
-export const content = {
+export const contentAPI = {
   async fetchContents({ limit = 10, cursor = null }) {
     return request
       .get("/subtitle/contents", { params: { limit, cursor } })
@@ -8,5 +8,16 @@ export const content = {
   },
   async createContent(content) {
     return request.post("/subtitle/contents", content);
+  },
+};
+
+export const genreAPI = {
+  async fetchAllGenres() {
+    return request
+      .get("/subtitle/genres")
+      .then(({ data }) => data);
+  },
+  async createGenre(genre) {
+    return request.post("/subtitle/contents", { genre });
   },
 };

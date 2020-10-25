@@ -1,8 +1,8 @@
-import { content } from "../api";
+import { contentAPI, genreAPI } from "../api";
 
 export default {
   async FETCH_CONTENTS({ commit }, { cursor = null, limit = 20 }) {
-    const { data } = await content.fetchContents({ cursor, limit });
+    const { data } = await contentAPI.fetchContents({ cursor, limit });
 
     if (data.length === 0) {
       commit("SET_CONTENT_HAS_NEXT", false);
@@ -17,6 +17,10 @@ export default {
     }
   },
   async CREATE_CONTENT(_, content) {
-    await content.createContent(content);
+    await contentAPI.createContent(content);
   },
+  async FETCH_ALL_GENRES({ commit }) {
+    const { data } = await genreAPI.fetchAllGenres()
+    commit("SET_ALL_GENRES", data)
+  }
 };

@@ -1,5 +1,10 @@
 <template>
-  <div>
+  <router-link
+    :to="{
+      name: 'contentDetail',
+      params: { id: content.id },
+    }"
+  >
     <q-card class="full-height cursor-pointer">
       <img class="poster-img" :src="content.poster" :alt="content.title" />
       <q-card-section class="card-section">
@@ -19,23 +24,20 @@
         </div>
       </q-card-section>
     </q-card>
-  </div>
+  </router-link>
 </template>
 
 <script>
 export default {
   props: {
-    content: {
-      type: Object,
-      required: true,
-    },
+    content: Object,
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .poster-img {
-  max-height: 16rem;
+  max-height: 280px;
   object-fit: cover;
 }
 </style>

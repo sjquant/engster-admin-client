@@ -1,24 +1,20 @@
 <template>
-  <div class="row justify-center">
-    <div class="content-create-form col-12 q-pa-lg q-mt-xl">
-      <q-input label="Title" v-model="content.title" />
-      <q-input label="Year" v-model="content.year" />
-      <q-input label="Poster" v-model="content.poster" />
+  <div class="content-create-form col-12 q-pa-lg q-mt-xl">
+    <q-input label="Title" v-model="content.title" />
+    <q-input label="Year" v-model="content.year" />
+    <q-input label="Poster" v-model="content.poster" />
 
-      <div class="q-gutter-sm q-mt-sm genre-container">
-        <div class="text-grey-7">Genres</div>
-        <TagSelector
-          :items="allGenres"
-          val-key="genre"
-          v-model="selectedGenreIds"
-        />
-      </div>
-      <q-separator class="q-my-sm" color="grey-5" />
-      <div class="flex justify-end">
-        <q-btn class="q-mt-md" color="primary" @click="createContent"
-          >제출</q-btn
-        >
-      </div>
+    <div class="q-gutter-sm q-mt-sm genre-container">
+      <div class="text-grey-7">Genres</div>
+      <TagSelector
+        :items="allGenres"
+        val-key="genre"
+        v-model="selectedGenreIds"
+      />
+    </div>
+    <q-separator class="q-my-sm" color="grey-5" />
+    <div class="flex justify-end">
+      <q-btn class="q-mt-md" color="primary" @click="createContent">제출</q-btn>
     </div>
     <q-dialog v-model="showAlert">
       <q-card>

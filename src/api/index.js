@@ -1,23 +1,26 @@
 import { request } from "../utils/axios";
 
 export const contentAPI = {
-  async fetchContents({ limit = 10, cursor = null }) {
+  fetchContents({ limit = 10, cursor = null }) {
     return request
       .get("/subtitle/contents", { params: { limit, cursor } })
       .then(({ data }) => data);
   },
-  async createContent(content) {
+  getContent(id) {
+    return request.get(`/subtitle/contents/${id}`).then(({ data }) => data);
+  },
+  createContent(content) {
     return request.post("/subtitle/contents", content);
   },
 };
 
 export const genreAPI = {
-  async fetchAllGenres() {
+  fetchAllGenres() {
     return request
       .get("/subtitle/genres")
       .then(({ data }) => data);
   },
-  async createGenre(genre) {
+  createGenre(genre) {
     return request.post("/subtitle/contents", { genre });
   },
 };

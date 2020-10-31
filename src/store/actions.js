@@ -16,6 +16,10 @@ export default {
       commit("SET_CONTENT_HAS_NEXT", true);
     }
   },
+  async GET_CONTENT({commit}, id) {
+    const content = await contentAPI.getContent(id)
+    commit("SET_CONTENT", content)
+  },
   async CREATE_CONTENT(_, content) {
     await contentAPI.createContent(content);
   },

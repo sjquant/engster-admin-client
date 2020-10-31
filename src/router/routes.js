@@ -14,6 +14,11 @@ const routes = [
         name: "contentCreate",
         component: () => import("pages/ContentsCreate.vue"),
       },
+      {
+        path: "contents/:id",
+        name: "contentDetail",
+        component: () => import("pages/ContentsDetail.vue"),
+      }
     ],
   },
 ];

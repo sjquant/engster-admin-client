@@ -1,14 +1,17 @@
 export default {
-  SET_CONTENTS(store, contents) {
-    store.contents = contents;
+  SET_CONTENT(state, content) {
+    state.content = content
   },
-  APPEND_CONTENTS(store, contents) {
-    store.contents.push(...contents);
+  SET_CONTENTS(state, contents) {
+    state.contents = contents;
   },
-  SET_CONTENT_HAS_NEXT(store, status) {
-    store.contentHasNext = status;
+  APPEND_CONTENTS(state, contents) {
+    state.contents.push(...contents);
   },
-  SET_ALL_GENRES(store, genres) {
-    store.allGenres = genres
+  SET_CONTENT_HAS_NEXT(state, status) {
+    state.contentHasNext = status;
+  },
+  SET_ALL_GENRES(state, genres) {
+    state.allGenres = genres
   }
 };

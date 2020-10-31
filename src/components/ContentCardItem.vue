@@ -37,7 +37,7 @@ export default {
 
 <style lang="scss" scoped>
 .poster-img {
-  max-height: 16rem;
+  max-height: 280px;
   object-fit: cover;
 }
 </style>

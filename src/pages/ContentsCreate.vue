@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <ContentCreateForm />
-  </div>
+  <q-page>
+    <div class="row justify-center">
+      <ContentCreateForm />
+    </div>
+  </q-page>
 </template>
 <script>
 import ContentCreateForm from "../components/ContentCreateForm.vue";

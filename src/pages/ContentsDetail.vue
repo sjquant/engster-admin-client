@@ -1,11 +1,18 @@
 <template>
-  <div>{{ content }}</div>
+  <q-page>
+    <div class="row justify-center">
+      <ContentDetailCard />
+    </div>
+  </q-page>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapActions } from "vuex";
+
+import ContentDetailCard from "../components/ContentDetailCard";
+
 export default {
-  computed: {
-    ...mapState(["content"]),
+  components: {
+    ContentDetailCard,
   },
   created() {
     const contentId = this.$route.params.id;

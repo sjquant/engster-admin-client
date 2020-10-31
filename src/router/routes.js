@@ -10,6 +10,11 @@ const routes = [
         alias: "/",
       },
       {
+        path: "contents/:id",
+        name: "contentDetail",
+        component: () => import("pages/ContentsDetail.vue"),
+      },
+      {
         path: "contents/create",
         name: "contentCreate",
         component: () => import("pages/ContentsCreate.vue"),

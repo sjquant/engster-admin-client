@@ -1,7 +1,7 @@
 <template>
   <span>
     <q-chip
-      size="sm"
+      size="md"
       square
       clickable
       :ripple="false"

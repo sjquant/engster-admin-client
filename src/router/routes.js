@@ -18,6 +18,11 @@ const routes = [
         path: "contents/:id",
         name: "contentDetail",
         component: () => import("pages/ContentsDetail.vue"),
+      },
+      {
+        path: "contents/:id/edit",
+        name: "contentEdit",
+        component: () => import("pages/ContentsEdit.vue"),
       }
     ],
   },

@@ -12,7 +12,7 @@
       </div>
       <div>
         <q-badge
-          class="q-mr-xs"
+          class="q-mr-xs text-capitalize"
           outline
           color="primary"
           v-for="each in content.genres"
@@ -21,6 +21,14 @@
         </q-badge>
       </div>
     </q-card-section>
+    <q-btn
+      round
+      icon="edit"
+      color="primary"
+      size="sm"
+      class="absolute-bottom-right q-ma-sm"
+      @click="routeContentEdit"
+    />
   </q-card>
 </template>
 
@@ -29,6 +37,12 @@ import { mapState } from "vuex";
 export default {
   computed: {
     ...mapState(["content"]),
+  },
+  methods: {
+    routeContentEdit() {
+      const id = this.$route.params.id;
+      this.$router.push({ name: "contentEdit", params: { id } });
+    },
   },
 };
 </script>

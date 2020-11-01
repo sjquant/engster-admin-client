@@ -15,16 +15,22 @@ export default {
       commit("SET_CONTENTS", data);
       commit("SET_CONTENT_HAS_NEXT", true);
     }
+    return data
   },
   async GET_CONTENT({commit}, id) {
     const content = await contentAPI.getContent(id)
     commit("SET_CONTENT", content)
+    return content
   },
   async CREATE_CONTENT(_, content) {
     await contentAPI.createContent(content);
   },
+  async UPDATE_CONTENT(_, {id, content}) {
+    await contentAPI.updateContent(id, content);
+  },
   async FETCH_ALL_GENRES({ commit }) {
     const { data } = await genreAPI.fetchAllGenres()
     commit("SET_ALL_GENRES", data)
+    return data
   }
 };

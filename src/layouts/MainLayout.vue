@@ -5,24 +5,31 @@
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>Engster Admin</q-toolbar-title>
+          <q-btn flat @click="route('/login')">로그인</q-btn>
         </q-toolbar>
       </q-header>
-      <q-drawer v-model="drawer" show-if-above :width="272" :breakpoint="768" bordered>
+      <q-drawer
+        v-model="drawer"
+        show-if-above
+        :width="272"
+        :breakpoint="768"
+        bordered
+      >
         <q-scroll-area class="fit">
           <q-list class="menu-list">
             <q-item
               clickable
               v-ripple
-              :active="each.name===$route.name"
+              :active="each.name === $route.name"
               active-class="bg-blue-1"
               v-for="each in menuList"
               v-bind:key="each.name"
-              @click="routeMenu(each.path)"
+              @click="route(each.path)"
             >
               <q-item-section avatar>
                 <q-icon :name="each.icon" />
               </q-item-section>
-              <q-item-section>{{each.label}}</q-item-section>
+              <q-item-section>{{ each.label }}</q-item-section>
             </q-item>
           </q-list>
         </q-scroll-area>
@@ -32,7 +39,7 @@
       </q-page-container>
     </q-layout>
   </div>
-</template> 
+</template>
 
 <script>
 export default {
@@ -50,7 +57,7 @@ export default {
     };
   },
   methods: {
-    routeMenu(path) {
+    route(path) {
       this.$router.push(path);
     },
   },

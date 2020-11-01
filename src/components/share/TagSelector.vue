@@ -2,11 +2,12 @@
   <div class="badge-selector">
     <TagSelectorItem
       v-for="(item, i) in items"
-      :key="item.id || i"
+      :key="itemId(item, i)"
       :item="item"
-      :item-id="item.id || i"
+      :item-id="itemId(item, i)"
       :val-key="valKey"
       :color="color"
+      :selected="value.includes(itemId(item, i))"
       @item-selected="selectItem"
       @item-unselected="unselectItem"
     />
@@ -18,11 +19,6 @@ import TagSelectorItem from "./TagSelectorItem.vue";
 export default {
   name: "TagSelector",
   components: { TagSelectorItem },
-  data() {
-    return {
-      selected: [],
-    };
-  },
   props: {
     items: {
       type: Array,
@@ -38,17 +34,18 @@ export default {
     },
     value: Array,
   },
-  watch: {
-    selected(v) {
-      this.$emit("input", v);
-    },
-  },
   methods: {
+    itemId(item, i) {
+      return item.id || i;
+    },
     selectItem(id) {
-      this.selected.push(id);
+      this.$emit("input", [...this.value, id]);
     },
     unselectItem(id) {
-      this.selected = this.selected.filter(x => x != id);
+      this.$emit(
+        "input",
+        this.value.filter(x => x !== id)
+      );
     },
   },
 };

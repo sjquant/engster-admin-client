@@ -7,7 +7,7 @@
       :ripple="false"
       :outline="!selected"
       :color="color"
-      :class="{ 'text-white': selected }"
+      :class="[{ 'text-white': selected }, 'text-capitalize']"
       @click="updateSelected"
       >{{ itemVal }}</q-chip
     >
@@ -16,16 +16,15 @@
 <script>
 export default {
   name: "TagSelectorItem",
-  data() {
-    return {
-      selected: false,
-    };
-  },
   props: {
     item: [Object, String, Number],
     itemId: [String, Number],
     valKey: String,
     color: String,
+    selected: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     itemVal() {
@@ -43,7 +42,6 @@ export default {
       } else {
         this.$emit("item-selected", this.itemId);
       }
-      this.selected = !this.selected;
     },
   },
 };

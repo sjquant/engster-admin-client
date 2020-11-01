@@ -14,7 +14,7 @@
         </div>
         <div class="q-mb-sm">
           <q-badge
-            class="q-mr-xs"
+            class="q-mr-xs text-capitalize"
             outline
             color="primary"
             v-for="each in content.genres"

@@ -12,6 +12,9 @@ export const contentAPI = {
   createContent(content) {
     return request.post("/subtitle/contents", content);
   },
+  updateContent(id, content) {
+    return request.put(`/subtitle/contents/${id}`, content).then(({data}) => data)
+  }
 };
 
 export const genreAPI = {

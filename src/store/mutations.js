@@ -1,6 +1,13 @@
 export default {
+  // Auth
+  SET_USER(state, user) {
+    if (!user) return;
+    state.user = user;
+    localStorage.setItem("user", JSON.stringify(user));
+  },
+  // Content
   SET_CONTENT(state, content) {
-    state.content = content
+    state.content = content;
   },
   SET_CONTENTS(state, contents) {
     state.contents = contents;
@@ -12,6 +19,6 @@ export default {
     state.contentHasNext = status;
   },
   SET_ALL_GENRES(state, genres) {
-    state.allGenres = genres
-  }
+    state.allGenres = genres;
+  },
 };

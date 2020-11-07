@@ -1,4 +1,15 @@
-import { request } from "../utils/axios";
+import { request } from "../utils";
+
+export const authAPI = {
+  obtainToken({ email, password }) {
+    return request
+      .post("/auth/obtain-token", { email, password })
+      .then(({ data }) => data);
+  },
+  refreshToken() {
+    return request.post("/auth/refresh-token").then(({ data }) => data);
+  },
+};
 
 export const contentAPI = {
   fetchContents({ limit = 10, cursor = null }) {
@@ -13,15 +24,15 @@ export const contentAPI = {
     return request.post("/subtitle/contents", content);
   },
   updateContent(id, content) {
-    return request.put(`/subtitle/contents/${id}`, content).then(({data}) => data)
-  }
+    return request
+      .put(`/subtitle/contents/${id}`, content)
+      .then(({ data }) => data);
+  },
 };
 
 export const genreAPI = {
   fetchAllGenres() {
-    return request
-      .get("/subtitle/genres")
-      .then(({ data }) => data);
+    return request.get("/subtitle/genres").then(({ data }) => data);
   },
   createGenre(genre) {
     return request.post("/subtitle/contents", { genre });

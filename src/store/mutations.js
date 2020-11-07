@@ -5,6 +5,10 @@ export default {
     state.user = user;
     localStorage.setItem("user", JSON.stringify(user));
   },
+  CLEAR_USER(state) {
+    state.user = null
+    localStorage.removeItem("user")
+  },
   // Content
   SET_CONTENT(state, content) {
     state.content = content;

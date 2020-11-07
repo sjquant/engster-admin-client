@@ -9,6 +9,9 @@ export const authAPI = {
   refreshToken() {
     return request.post("/auth/refresh-token").then(({ data }) => data);
   },
+  signOut() {
+    return request.post("/auth/sign-out").then(({data}) => data)
+  }
 };
 
 export const contentAPI = {

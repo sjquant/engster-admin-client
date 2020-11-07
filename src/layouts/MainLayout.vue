@@ -5,7 +5,12 @@
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>Engster Admin</q-toolbar-title>
-          <q-btn flat @click="route('/login')">로그인</q-btn>
+          <q-btn flat @click="logout" v-if="isAdmin" key="logout-btn"
+            >로그아웃</q-btn
+          >
+          <q-btn flat @click="route('/login')" v-else key="login-btn"
+            >로그인</q-btn
+          >
         </q-toolbar>
       </q-header>
       <q-drawer
@@ -42,6 +47,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -56,9 +63,17 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapGetters(["isAdmin"]),
+  },
   methods: {
+    ...mapActions(["SIGN_OUT"]),
     route(path) {
       this.$router.push(path);
+    },
+    logout() {
+      this.SIGN_OUT();
+      this.$router.push("/login");
     },
   },
 };

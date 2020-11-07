@@ -2,12 +2,16 @@ import { authAPI, contentAPI, genreAPI } from "../api";
 
 export default {
   async OBTAIN_TOKEN({ commit }, { email, password }) {
-    const { user } = await authAPI.obtainToken(email, password);
+    const { user } = await authAPI.obtainToken({ email, password });
     commit("SET_USER", user);
   },
   async REFRESH_TOKEN({ commit }) {
     const { user } = await authAPI.refreshToken();
     commit("SET_USER", user);
+  },
+  async SIGN_OUT({commit}) {
+    commit("CLEAR_USER")
+    await authAPI.signOut();
   },
   async FETCH_CONTENTS({ commit }, { cursor = null, limit = 20 }) {
     const { data } = await contentAPI.fetchContents({ cursor, limit });

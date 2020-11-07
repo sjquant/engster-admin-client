@@ -10,7 +10,7 @@ const axiosObj = axios.create({
   withCredentials: true,
 });
 
-export const request = {
+export default {
   get(path, options = {}) {
     return axiosObj.get(`${path}`, options);
   },
@@ -23,14 +23,14 @@ export const request = {
   put(path, data, options = {}) {
     return axiosObj.put(`${path}`, data, options);
   },
-  setCSRFHeader() {
-    const accessCSRF = cookies.read("X-CSRF-Token");
-    const refeshCSRF = cookies.read("X-RCSRF-Token");
+  setCSRFHeader({ accessCSRF, refreshCSRF }) {
+    accessCSRF = accessCSRF || cookies.read("X-CSRF-Token");
+    refreshCSRF = refreshCSRF || cookies.read("X-RCSRF-Token");
     axiosObj.defaults.headers.common["X-CSRF-Token"] = accessCSRF
       ? accessCSRF
       : null;
-    axiosObj.defaults.headers.common["X-RCSRF-Token"] = refeshCSRF
-      ? refeshCSRF
+    axiosObj.defaults.headers.common["X-RCSRF-Token"] = refreshCSRF
+      ? refreshCSRF
       : null;
   },
 };

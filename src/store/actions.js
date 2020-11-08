@@ -40,6 +40,9 @@ export default {
   async UPDATE_CONTENT(_, { id, content }) {
     await contentAPI.updateContent(id, content);
   },
+  async DELETE_CONTENT(_, id) {
+    await contentAPI.deleteContent(id)
+  },
   async FETCH_ALL_GENRES({ commit }) {
     const { data } = await genreAPI.fetchAllGenres();
     commit("SET_ALL_GENRES", data);

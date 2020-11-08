@@ -31,6 +31,9 @@ export const contentAPI = {
       .put(`/subtitle/contents/${id}`, content)
       .then(({ data }) => data);
   },
+  deleteContent(id) {
+    return request.delete(`/subtitle/contents/${id}`).then(({data}) => data)
+  }
 };
 
 export const genreAPI = {

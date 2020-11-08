@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 import ContentCardCreate from "../components/ContentCardCreate.vue";
 import ContentCardItem from "../components/ContentCardItem.vue";
@@ -19,10 +19,9 @@ export default {
   components: { ContentCardCreate, ContentCardItem },
   computed: {
     ...mapState(["contents"]),
-    ...mapGetters(["contentCursor"]),
   },
   created() {
-    this.FETCH_CONTENTS({ cursor: this.contentCursor });
+    this.FETCH_CONTENTS({ cursor: null });
   },
   methods: {
     ...mapActions(["FETCH_CONTENTS"]),

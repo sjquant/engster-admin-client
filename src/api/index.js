@@ -10,37 +10,35 @@ export const authAPI = {
     return request.post("/auth/refresh-token").then(({ data }) => data);
   },
   signOut() {
-    return request.post("/auth/sign-out").then(({data}) => data)
-  }
+    return request.post("/auth/sign-out").then(({ data }) => data);
+  },
 };
 
 export const contentAPI = {
   fetchContents({ limit = 10, cursor = null }) {
     return request
-      .get("/subtitle/contents", { params: { limit, cursor } })
+      .get("/contents", { params: { limit, cursor } })
       .then(({ data }) => data);
   },
   getContent(id) {
-    return request.get(`/subtitle/contents/${id}`).then(({ data }) => data);
+    return request.get(`/contents/${id}`).then(({ data }) => data);
   },
   createContent(content) {
-    return request.post("/subtitle/contents", content);
+    return request.post("/contents", content);
   },
   updateContent(id, content) {
-    return request
-      .put(`/subtitle/contents/${id}`, content)
-      .then(({ data }) => data);
+    return request.put(`/contents/${id}`, content).then(({ data }) => data);
   },
   deleteContent(id) {
-    return request.delete(`/subtitle/contents/${id}`).then(({data}) => data)
-  }
+    return request.delete(`/contents/${id}`).then(({ data }) => data);
+  },
 };
 
 export const genreAPI = {
   fetchAllGenres() {
-    return request.get("/subtitle/genres").then(({ data }) => data);
+    return request.get("/genres").then(({ data }) => data);
   },
   createGenre(genre) {
-    return request.post("/subtitle/contents", { genre });
+    return request.post("/genres", { genre });
   },
 };

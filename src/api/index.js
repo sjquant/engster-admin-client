@@ -42,3 +42,37 @@ export const genreAPI = {
     return request.post("/genres", { genre });
   },
 };
+
+export const subtitleAPI = {
+  downloadCSV({ subtitle, translation, filename = "file.csv" }) {
+    const formData = new FormData();
+    formData.append("subtitle", subtitle);
+    if (translation) formData.append("translation", translation);
+
+    return request
+      .post("/subtitles/convert-to-csv", formData, {
+        headers: {
+          Accept: "text/csv",
+          "Content-Type": "multipart/form-data",
+        },
+        responseType: "blob",
+      })
+      .then(({ data }) => {
+        const url = window.URL.createObjectURL(
+          new Blob(
+            [
+              new Uint8Array([0xef, 0xbb, 0xbf]), // UTF-8 BOM
+              data,
+            ],
+            { type: "text/csv;charset=utf-8" }
+          )
+        );
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", filename); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+  },
+};

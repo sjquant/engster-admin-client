@@ -71,7 +71,12 @@
       </div>
       <q-card-actions align="right" class="q-pa-none">
         <div>
-          <q-btn unelevated color="primary q-px-lg" label="CSV 변환" />
+          <q-btn
+            unelevated
+            color="primary q-px-lg"
+            label="CSV 변환"
+            @click="downloadCSV"
+          />
         </div>
       </q-card-actions>
     </q-card-section>
@@ -79,6 +84,7 @@
 </template>
 
 <script>
+import { subtitleAPI } from "../api";
 export default {
   data() {
     return {
@@ -114,6 +120,18 @@ export default {
     removeTranslation() {
       this.$refs.transInput.value = "";
       this.translation = null;
+    },
+    downloadCSV() {
+      if (!this.subtitle) {
+        alert("영어 자막을 업로드해주세요.");
+        return;
+      }
+      const filename = this.subtitle.name.split(".")[0] + ".csv";
+      subtitleAPI.downloadCSV({
+        subtitle: this.subtitle,
+        translation: this.translation,
+        filename,
+      });
     },
   },
 };

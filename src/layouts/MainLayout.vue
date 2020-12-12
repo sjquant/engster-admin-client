@@ -25,7 +25,11 @@
             <q-item
               clickable
               v-ripple
-              :active="each.name === $route.name"
+              :active="
+                each.activeFunc
+                  ? each.activeFunc(each)
+                  : each.name === $route.name
+              "
               active-class="bg-blue-1"
               v-for="each in menuList"
               v-bind:key="each.name"
@@ -55,10 +59,18 @@ export default {
       drawer: false,
       menuList: [
         {
-          name: "contents",
           label: "컨텐츠 관리",
           icon: "view_list",
           path: "/contents",
+          activeFunc: () => {
+            return this.$route.name.startsWith("content");
+          },
+        },
+        {
+          name: "etc",
+          label: "기타",
+          icon: "linear_scale",
+          path: "/etcetera",
         },
       ],
     };

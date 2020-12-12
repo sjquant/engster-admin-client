@@ -1,5 +1,10 @@
 // app global css in SCSS form
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 
 a {
   text-decoration: none;
+}
+
+* {
+  font-family: "Spoqa Han Sans Neo", "sans-serif";
 }

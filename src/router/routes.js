@@ -23,14 +23,19 @@ const routes = [
         path: "contents/:id/edit",
         name: "contentEdit",
         component: () => import("pages/ContentsEdit.vue"),
-      }
+      },
+      {
+        path: "etcetera",
+        name: "etc",
+        component: () => import("pages/Etcetera.vue"),
+      },
     ],
   },
   {
     path: "/login",
     name: "login",
-    component: () => import ("pages/Login.vue")
-  }
+    component: () => import("pages/Login.vue"),
+  },
 ];
 
 // Always leave this as last one

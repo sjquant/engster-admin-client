@@ -46,7 +46,22 @@ export const genreAPI = {
 export const subtitleAPI = {
   fetchSubtitles({ contentId, cursor, limit }) {
     return request
-      .get("/subtitles", { params: { content_id: contentId, cursor, limit } })
+      .get("/subtitles", {
+        params: { content_id: contentId, cursor, limit },
+      })
+      .then(({ data }) => data);
+  },
+  uploadSubtitleCSV({ file, contentId }) {
+    const formData = new FormData();
+    formData.append("input", file);
+
+    return request
+      .post("/subtitles", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        params: { content_id: contentId },
+      })
       .then(({ data }) => data);
   },
   downloadCSV({ subtitle, translation, filename = "file.csv" }) {

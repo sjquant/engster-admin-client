@@ -9,7 +9,7 @@
         <input
           type="file"
           ref="subInput"
-          class="file-input"
+          class="hidden"
           accept=".smi,.srt"
           @change="getSubtitle"
         />
@@ -41,7 +41,7 @@
         <input
           type="file"
           ref="transInput"
-          class="file-input"
+          class="hidden"
           accept=".smi,.srt"
           @change="getTranslation"
         />
@@ -140,10 +140,6 @@ export default {
 .subtitle-to-csv-card {
   width: 768px;
   max-width: 768px;
-
-  .file-input {
-    display: none;
-  }
 
   .file-container {
     position: relative;

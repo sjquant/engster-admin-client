@@ -48,7 +48,11 @@ export default {
     commit("SET_ALL_GENRES", data);
     return data;
   },
-  async FETCH_SUBTITLES({ commit }, { contentId, cursor, limit }) {
+  async FETCH_SUBTITLES(
+    { getters, commit },
+    { contentId, append = false, limit }
+  ) {
+    const cursor = append ? getters.subtitleCursor : null;
     const { data } = await subtitleAPI.fetchSubtitles({
       contentId,
       cursor,

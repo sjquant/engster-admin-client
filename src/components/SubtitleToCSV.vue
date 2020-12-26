@@ -75,7 +75,7 @@
             unelevated
             color="primary q-px-lg"
             label="CSV 변환"
-            @click="downloadCSV"
+            @click="convert2CSV"
           />
         </div>
       </q-card-actions>
@@ -121,13 +121,13 @@ export default {
       this.$refs.transInput.value = "";
       this.translation = null;
     },
-    downloadCSV() {
+    convert2CSV() {
       if (!this.subtitle) {
         alert("영어 자막을 업로드해주세요.");
         return;
       }
       const filename = this.subtitle.name.split(".")[0] + ".csv";
-      subtitleAPI.downloadCSV({
+      subtitleAPI.convert2CSV({
         subtitle: this.subtitle,
         translation: this.translation,
         filename,

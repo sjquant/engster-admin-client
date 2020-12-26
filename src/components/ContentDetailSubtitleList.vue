@@ -3,15 +3,7 @@
     <NoSubtitle v-if="!subtitles.length" />
     <div class="subtitle-item__container" v-else>
       <div class="q-pa-sm">
-        <div class="flex justify-end">
-          <q-btn
-            unelevated
-            class="q-mr-sm"
-            color="primary"
-            label="자막 다운로드"
-          />
-          <q-btn unelevated color="primary" label="번역  추가" />
-        </div>
+        <SubtitleBtns />
         <SubtitleItem
           v-for="subtitle in subtitles"
           :key="subtitle.id"
@@ -25,14 +17,16 @@
 import { mapState } from "vuex";
 import NoSubtitle from "./ContentDetailNoSubtitle";
 import SubtitleItem from "./ContentDetailSubtitleItem";
+import SubtitleBtns from "./ContentDetailSubtitleBtns";
 
 export default {
   components: {
     NoSubtitle,
     SubtitleItem,
+    SubtitleBtns,
   },
   computed: {
-    ...mapState(["subtitles"]),
+    ...mapState(["subtitles", "content"]),
   },
 };
 </script>

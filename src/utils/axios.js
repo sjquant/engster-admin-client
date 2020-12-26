@@ -11,6 +11,7 @@ const axiosObj = axios.create({
 });
 
 export default {
+  axiosObj,
   get(path, options = {}) {
     return axiosObj.get(`${path}`, options);
   },

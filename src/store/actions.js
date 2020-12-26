@@ -1,4 +1,10 @@
-import { authAPI, contentAPI, genreAPI, subtitleAPI } from "../api";
+import {
+  authAPI,
+  contentAPI,
+  genreAPI,
+  subtitleAPI,
+  translationAPI,
+} from "../api";
 
 export default {
   async OBTAIN_TOKEN({ commit }, { email, password }) {
@@ -64,5 +70,8 @@ export default {
       commit("SET_SUBTITLES", data);
     }
     return data;
+  },
+  async ADD_TRANSLATION_CSV(_, file) {
+    await translationAPI.addTranslationCSV(file);
   },
 };

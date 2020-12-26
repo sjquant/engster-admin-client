@@ -1,5 +1,21 @@
 import { request } from "../utils";
 
+const { axiosObj } = request;
+
+axiosObj.interceptors.response.use(
+  function(response) {
+    // Do something with response data
+    return response;
+  },
+  function(error) {
+    if ([401, 403].indexOf(error.response.status) >= 0) {
+      window.location = "/login";
+      return;
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const authAPI = {
   obtainToken({ email, password }) {
     return request
@@ -64,7 +80,38 @@ export const subtitleAPI = {
       })
       .then(({ data }) => data);
   },
-  downloadCSV({ subtitle, translation, filename = "file.csv" }) {
+  downloadAsCSV({ contentId, filename = "file.csv" }) {
+    return request
+      .post(
+        "/subtitles/download-as-csv",
+        { content_id: contentId },
+        {
+          headers: {
+            Accept: "text/csv",
+            "Content-Type": "application/json",
+          },
+          responseType: "blob",
+        }
+      )
+      .then(({ data }) => {
+        const url = window.URL.createObjectURL(
+          new Blob(
+            [
+              new Uint8Array([0xef, 0xbb, 0xbf]), // UTF-8 BOM
+              data,
+            ],
+            { type: "text/csv;charset=utf-8" }
+          )
+        );
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", filename); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+  },
+  convert2CSV({ subtitle, translation, filename = "file.csv" }) {
     const formData = new FormData();
     formData.append("subtitle", subtitle);
     if (translation) formData.append("translation", translation);
@@ -94,5 +141,17 @@ export const subtitleAPI = {
         link.click();
         document.body.removeChild(link);
       });
+  },
+};
+
+export const translationAPI = {
+  addTranslationCSV(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+    return request.post("/translations/add-csv", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   },
 };

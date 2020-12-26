@@ -4,6 +4,7 @@ export default {
   // content
   content: {},
   contents: [],
+  subtitles: [],
   contentHasNext: true,
   allGenres: [],
 };

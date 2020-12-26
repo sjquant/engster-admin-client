@@ -1,4 +1,4 @@
-import { authAPI, contentAPI, genreAPI } from "../api";
+import { authAPI, contentAPI, genreAPI, subtitleAPI } from "../api";
 
 export default {
   async OBTAIN_TOKEN({ commit }, { email, password }) {
@@ -9,8 +9,8 @@ export default {
     const { user } = await authAPI.refreshToken();
     commit("SET_USER", user);
   },
-  async SIGN_OUT({commit}) {
-    commit("CLEAR_USER")
+  async SIGN_OUT({ commit }) {
+    commit("CLEAR_USER");
     await authAPI.signOut();
   },
   async FETCH_CONTENTS({ commit }, { cursor = null, limit = 20 }) {
@@ -41,11 +41,28 @@ export default {
     await contentAPI.updateContent(id, content);
   },
   async DELETE_CONTENT(_, id) {
-    await contentAPI.deleteContent(id)
+    await contentAPI.deleteContent(id);
   },
   async FETCH_ALL_GENRES({ commit }) {
     const { data } = await genreAPI.fetchAllGenres();
     commit("SET_ALL_GENRES", data);
+    return data;
+  },
+  async FETCH_SUBTITLES(
+    { getters, commit },
+    { contentId, append = false, limit }
+  ) {
+    const cursor = append ? getters.subtitleCursor : null;
+    const { data } = await subtitleAPI.fetchSubtitles({
+      contentId,
+      cursor,
+      limit,
+    });
+    if (cursor) {
+      commit("APPEND_SUBTITLES", data);
+    } else {
+      commit("SET_SUBTITLES", data);
+    }
     return data;
   },
 };

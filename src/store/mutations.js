@@ -19,9 +19,6 @@ export default {
   APPEND_CONTENTS(state, contents) {
     state.contents.push(...contents);
   },
-  SET_CONTENT_HAS_NEXT(state, status) {
-    state.contentHasNext = status;
-  },
   SET_ALL_GENRES(state, genres) {
     state.allGenres = genres;
   },

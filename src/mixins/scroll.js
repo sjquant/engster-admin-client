@@ -22,7 +22,7 @@ export const scrollMixin = {
     if (this.$_scrollListener)
       window.removeEventListener("scroll", this.$_scrollListener);
   },
-  beforDestroy() {
+  beforeDestroy() {
     if (this.$_scrollListener)
       window.removeEventListener("scroll", this.$_scrollListener);
   },

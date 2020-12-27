@@ -12,7 +12,7 @@
   </q-page>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 
 import ContentDetailCard from "../components/ContentDetailCard";
 import SubtitleList from "../components/ContentDetailSubtitleList";
@@ -34,9 +34,17 @@ export default {
     const contentId = this.$route.params.id;
     this.GET_CONTENT(contentId);
     this.fetchSubtitles({ contentId });
+  },
+  mounted() {
+    const contentId = this.$route.params.id;
     this.onScroll(() => this.fetchSubtitles({ contentId, append: true }));
   },
+  beforeDestroy() {
+    this.SET_CONTENT({});
+    this.SET_SUBTITLES([]);
+  },
   methods: {
+    ...mapMutations(["SET_CONTENT", "SET_SUBTITLES"]),
     ...mapActions(["GET_CONTENT", "FETCH_SUBTITLES"]),
     async fetchSubtitles({ contentId, append }) {
       if (!this.isFetching && this.hasMoreSubtitles) {

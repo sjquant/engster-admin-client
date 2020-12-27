@@ -23,7 +23,6 @@ export default {
     const { data } = await contentAPI.fetchContents({ cursor, limit });
 
     if (data.length === 0) {
-      commit("SET_CONTENT_HAS_NEXT", false);
       return;
     }
 
@@ -31,7 +30,6 @@ export default {
       commit("APPEND_CONTENTS", data);
     } else {
       commit("SET_CONTENTS", data);
-      commit("SET_CONTENT_HAS_NEXT", true);
     }
     return data;
   },
@@ -59,6 +57,7 @@ export default {
     { contentId, append = false, limit }
   ) {
     const cursor = append ? getters.subtitleCursor : null;
+    console.log(cursor);
     const { data } = await subtitleAPI.fetchSubtitles({
       contentId,
       cursor,

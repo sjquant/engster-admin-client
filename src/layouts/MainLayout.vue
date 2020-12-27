@@ -81,7 +81,8 @@ export default {
   methods: {
     ...mapActions(["SIGN_OUT"]),
     route(path) {
-      this.$router.push(path);
+      // Catch for dealing with navigation duplicate failure
+      this.$router.push(path).catch(() => {});
     },
     logout() {
       this.SIGN_OUT();

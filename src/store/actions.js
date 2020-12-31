@@ -57,7 +57,6 @@ export default {
     { contentId, append = false, limit }
   ) {
     const cursor = append ? getters.subtitleCursor : null;
-    console.log(cursor);
     const { data } = await subtitleAPI.fetchSubtitles({
       contentId,
       cursor,

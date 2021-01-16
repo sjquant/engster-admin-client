@@ -31,8 +31,6 @@ jobs:
 
       - name: Build
         run: yarn build
-        env:
-          BASE_URL: https://api.engster.co.kr
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

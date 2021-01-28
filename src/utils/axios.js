@@ -24,14 +24,10 @@ export default {
   put(path, data, options = {}) {
     return axiosObj.put(`${path}`, data, options);
   },
-  setCSRFHeader({ accessCSRF, refreshCSRF }) {
-    accessCSRF = accessCSRF || cookies.read("X-CSRF-Token");
-    refreshCSRF = refreshCSRF || cookies.read("X-RCSRF-Token");
-    axiosObj.defaults.headers.common["X-CSRF-Token"] = accessCSRF
-      ? accessCSRF
-      : null;
-    axiosObj.defaults.headers.common["X-RCSRF-Token"] = refreshCSRF
-      ? refreshCSRF
-      : null;
+  setCSRFHeader() {
+    const accessCSRF = cookies.read("X-CSRF-Token");
+    const refreshCSRF = cookies.read("X-RCSRF-Token");
+    axiosObj.defaults.headers.common["X-CSRF-Token"] = accessCSRF;
+    axiosObj.defaults.headers.common["X-RCSRF-Token"] = refreshCSRF;
   },
 };

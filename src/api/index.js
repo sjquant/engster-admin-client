@@ -20,10 +20,16 @@ export const authAPI = {
   obtainToken({ email, password }) {
     return request
       .post("/auth/obtain-token", { email, password })
-      .then(({ data }) => data);
+      .then(({ data }) => {
+        request.setCSRFHeader();
+        return data;
+      });
   },
   refreshToken() {
-    return request.post("/auth/refresh-token").then(({ data }) => data);
+    return request.post("/auth/refresh-token").then(({ data }) => {
+      request.setCSRFHeader();
+      return data;
+    });
   },
   signOut() {
     return request.post("/auth/sign-out").then(({ data }) => data);

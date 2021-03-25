@@ -63,7 +63,15 @@ export default {
           icon: "view_list",
           path: "/contents",
           activeFunc: () => {
-            return this.$route.name.startsWith("content");
+            return this.$route.path.startsWith("/contents");
+          },
+        },
+        {
+          label: "번역 검토",
+          icon: "rate_review",
+          path: "/translation-reviews",
+          activeFunc: () => {
+            return this.$route.path.startsWith("/translation-reviews");
           },
         },
         {

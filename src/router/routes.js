@@ -25,6 +25,11 @@ const routes = [
         component: () => import("pages/ContentsEdit.vue"),
       },
       {
+        path: "translation-reviews",
+        name: "translationReviewList",
+        component: () => import("pages/TranslationReviews.vue"),
+      },
+      {
         path: "etcetera",
         name: "etc",
         component: () => import("pages/Etcetera.vue"),

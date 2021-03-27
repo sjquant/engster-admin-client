@@ -160,4 +160,15 @@ export const translationAPI = {
       },
     });
   },
+  fetchTranslations({ status, limit = 20, offset = 0 }) {
+    return request
+      .get("/translations", {
+        params: {
+          status,
+          limit,
+          offset,
+        },
+      })
+      .then(({ data }) => data);
+  },
 };

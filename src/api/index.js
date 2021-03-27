@@ -66,10 +66,22 @@ export const genreAPI = {
 };
 
 export const subtitleAPI = {
-  fetchSubtitles({ contentId, cursor, limit }) {
+  fetchSubtitles(options = {}) {
+    const { contentId, cursor, limit = 20 } = options;
     return request
       .get("/subtitles", {
         params: { content_id: contentId, cursor, limit },
+      })
+      .then(({ data }) => data);
+  },
+  fetchTranslations(subtitleId, options = {}) {
+    const { limit, cursor } = options;
+    return request
+      .get(`/subtitles/${subtitleId}/translations`, {
+        params: {
+          limit,
+          cursor,
+        },
       })
       .then(({ data }) => data);
   },
@@ -160,13 +172,25 @@ export const translationAPI = {
       },
     });
   },
-  fetchTranslations({ status, limit = 20, offset = 0 }) {
+  fetchTranslations(options = {}) {
+    const { status, limit = 20, offset = 0 } = options;
     return request
       .get("/translations", {
         params: {
           status,
           limit,
           offset,
+        },
+      })
+      .then(({ data }) => data);
+  },
+  fetchReveiws(translationId, options = {}) {
+    const { limit = 20, cursor } = options;
+    return request
+      .get(`/translations/${translationId}/reviews`, {
+        params: {
+          limit,
+          cursor,
         },
       })
       .then(({ data }) => data);

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import SubtitleToCSV from "../components/SubtitleToCSV.vue";
+import SubtitleToCSV from "../components/Etcetera/SubtitleToCSV.vue";
 export default {
   components: {
     SubtitleToCSV,

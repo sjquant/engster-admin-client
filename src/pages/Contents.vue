@@ -1,14 +1,14 @@
 <template>
   <q-page>
-    <ContentCardList />
+    <ContentList />
   </q-page>
 </template>
 
 <script>
-import ContentCardList from "../components/ContentCardList.vue";
+import ContentList from "../components/Content/ContentList.vue";
 
 export default {
   name: "Contents",
-  components: { ContentCardList },
+  components: { ContentList },
 };
 </script>

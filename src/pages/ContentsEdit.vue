@@ -1,15 +1,15 @@
 <template>
   <q-page>
     <div class="row justify-center">
-      <ContentEditForm />
+      <EditForm />
     </div>
   </q-page>
 </template>
 <script>
-import ContentEditForm from "../components/ContentEditForm.vue";
+import EditForm from "../components/Content/EditForm.vue";
 export default {
   components: {
-    ContentEditForm,
+    EditForm,
   },
 };
 </script>

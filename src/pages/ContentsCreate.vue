@@ -1,15 +1,15 @@
 <template>
   <q-page>
     <div class="row justify-center">
-      <ContentCreateForm />
+      <CreateForm />
     </div>
   </q-page>
 </template>
 <script>
-import ContentCreateForm from "../components/ContentCreateForm.vue";
+import CreateForm from "../components/Content/CreateForm.vue";
 export default {
   components: {
-    ContentCreateForm,
+    CreateForm,
   },
 };
 </script>

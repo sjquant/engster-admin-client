@@ -38,7 +38,7 @@
   </q-table>
 </template>
 <script>
-import { translationAPI } from "../api";
+import { translationAPI } from "../../api";
 
 export default {
   data() {

@@ -26,8 +26,17 @@ const routes = [
       },
       {
         path: "translation-reviews",
-        name: "translationReviewList",
-        component: () => import("pages/TranslationReviews.vue"),
+        redirect: "translation-reviews/pending",
+      },
+      {
+        path: "translation-reviews/pending",
+        name: "translationReviewPending",
+        component: () => import("pages/TranslationReviewPending.vue"),
+      },
+      {
+        path: "translation-reviews/history",
+        name: "translationReviewHistory",
+        component: () => import("pages/TranslationReviewHistory.vue"),
       },
       {
         path: "etcetera",

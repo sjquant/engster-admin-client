@@ -1,9 +1,7 @@
 <template>
   <q-page>
     <div class="q-pa-lg">
-      <div class="q-pb-lg full-width flex justify-end">
-        <StatusTabs />
-      </div>
+      <StatusTabs />
       <PendingTable />
     </div>
   </q-page>

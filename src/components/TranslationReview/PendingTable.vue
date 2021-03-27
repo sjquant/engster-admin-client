@@ -1,37 +1,51 @@
 <template>
   <q-table
-    class="translation-review-table"
-    :data="translations"
+    class="translation-pending-table"
+    :data="data"
     :columns="columns"
     :pagination="pagination"
+    :expanded.sync="expanded"
     row-key="id"
     flat
     dense
     hide-bottom
     binary-state-sort
-    :expanded.sync="expanded"
   >
+    <template v-slot:header="props">
+      <q-tr :props="props">
+        <q-th
+          v-for="col in props.cols"
+          :key="col.name"
+          :props="props"
+          :style="col.style"
+        >
+          {{ col.label }}
+        </q-th>
+      </q-tr>
+    </template>
     <template v-slot:body="props">
       <q-tr
         :props="props"
         @click="expandRow(props)"
         :class="['cursor-pointer', { expanded: props.expand }]"
       >
-        <q-td v-for="col in props.cols" :key="col.name" :props="props">
+        <q-td v-for="col in props.cols" :key="col.name">
           <q-btn
             :label="statusLabel(col.value)"
             color="primary"
             unelevated
             v-if="col.name === 'status'"
+            @click.stop
           />
-          <span v-else> {{ col.value }} </span>
+          <div v-else>{{ col.value }}</div>
         </q-td>
       </q-tr>
-      <q-tr v-show="props.expand" :props="props">
-        <q-td colspan="100%">
-          <div class="text-left">
-            This is expand slot for row above: {{ props.row.id }}.
-          </div>
+      <q-tr v-if="props.expand" :props="props" no-hover>
+        <q-td :colspan="props.cols.length">
+          <PendingTableChild
+            :translation-id="props.row.id"
+            :subtitle-id="props.row.line_id"
+          />
         </q-td>
       </q-tr>
     </template>
@@ -39,8 +53,13 @@
 </template>
 <script>
 import { translationAPI } from "../../api";
+import { translator } from "../../utils";
+import PendingTableChild from "./PendingTableChild.vue";
 
 export default {
+  components: {
+    PendingTableChild,
+  },
   data() {
     return {
       columns: [
@@ -49,18 +68,21 @@ export default {
           label: "자막",
           align: "left",
           field: "line",
+          style: "width: 35%;",
         },
         {
           name: "translation",
           label: "번역",
           align: "left",
           field: "translation",
+          style: "width: 35%;",
         },
         {
           name: "translator",
           label: "작성자",
           align: "left",
           field: "user_nickname",
+          style: "width: 15%;",
         },
         {
           name: "updated_at",
@@ -68,42 +90,31 @@ export default {
           align: "left",
           sortable: true,
           field: "updated_at",
+          style: "width: auto;",
         },
         {
           name: "status",
           label: "상태",
           align: "left",
           field: "status",
+          style: "width: auto;",
         },
       ],
       pagination: {
         rowsPerPage: 0,
       },
-      translations: [],
+      data: [],
       expanded: [],
     };
   },
   async created() {
     const { data } = await translationAPI.fetchTranslations({
-      status: "APPROVED",
+      status: undefined,
     });
-    this.translations = data;
+    this.data = data;
   },
   methods: {
-    statusLabel(value) {
-      switch (value) {
-        case "APPROVED":
-          return "승인";
-        case "PENDING":
-          return "대기중";
-        case "CHANGE_REQUESTED":
-          return "변경요청";
-        case "REJECTED":
-          return "거부";
-        default:
-          break;
-      }
-    },
+    statusLabel: translator.reviewStatusLabel,
     expandRow(props) {
       const { row, expand } = props;
       if (expand) {
@@ -116,11 +127,17 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.translation-review-table {
+<style lang="scss">
+.translation-pending-table {
+  td > div {
+    width: 100%;
+    white-space: normal;
+  }
+
   .q-table__top,
   .q-table__bottom,
   thead tr:first-child th {
+    height: 48px;
     background-color: $grey-3;
   }
 

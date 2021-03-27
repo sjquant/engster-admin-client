@@ -2,7 +2,7 @@
   <q-page>
     <div class="flex justify-center">
       <div>
-        <ContentDetailCard />
+        <DetailCard />
         <SubtitleList />
       </div>
     </div>
@@ -14,14 +14,14 @@
 <script>
 import { mapActions, mapMutations } from "vuex";
 
-import ContentDetailCard from "../components/ContentDetailCard";
-import SubtitleList from "../components/ContentDetailSubtitleList";
+import DetailCard from "../components/Content/DetailCard.vue";
+import SubtitleList from "../components/Content/DetailSubtitleList.vue";
 import { scroll as scrollMixin } from "../mixins";
 
 export default {
   mixins: [scrollMixin],
   components: {
-    ContentDetailCard,
+    DetailCard,
     SubtitleList,
   },
   data() {

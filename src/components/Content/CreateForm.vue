@@ -16,22 +16,12 @@
     <div class="flex justify-end">
       <q-btn class="q-mt-md" color="primary" @click="createContent">제출</q-btn>
     </div>
-    <q-dialog v-model="showAlert">
-      <q-card>
-        <q-card-section>
-          <div>{{ alertMessage }}</div>
-        </q-card-section>
-        <q-card-actions align="center">
-          <q-btn flat label="OK" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
-import TagSelector from "./share/TagSelector.vue";
+import TagSelector from "../share/TagSelector.vue";
 export default {
   components: {
     TagSelector,
@@ -44,8 +34,6 @@ export default {
         poster: "",
       },
       selectedGenreIds: [],
-      showAlert: false,
-      alertMessage: "",
     };
   },
   computed: {
@@ -62,9 +50,7 @@ export default {
         this.content.year === "" ||
         this.content.poster === ""
       ) {
-        this.alertMessage =
-          "누락된 부분이 있습니다. 컨텐츠 정보를 입력해주세요.";
-        this.showAlert = true;
+        alert("누락된 부분이 있습니다. 컨텐츠 정보를 입력해주세요.");
         return;
       }
 
@@ -76,8 +62,7 @@ export default {
         await this.CREATE_CONTENT(content);
         this.$router.push({ name: "contentList" });
       } catch (e) {
-        this.alertMessage = e.message;
-        this.showAlert = true;
+        alert(e.message);
         return;
       }
     },

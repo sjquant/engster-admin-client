@@ -22,7 +22,7 @@
   </div>
 </template>
 <script>
-import { subtitleAPI } from "../api";
+import { subtitleAPI } from "../../api";
 
 export default {
   methods: {

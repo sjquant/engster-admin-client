@@ -24,7 +24,7 @@
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
-import { subtitleAPI } from "../api";
+import { subtitleAPI } from "../../api";
 
 export default {
   computed: {

@@ -1,7 +1,7 @@
 <template>
   <div class="row q-pa-lg q-col-gutter-md">
-    <ContentCardCreate class="col-xs-12 col-sm-6 col-md-3 col-lg-2" />
-    <ContentCardItem
+    <CreateContentItem class="col-xs-12 col-sm-6 col-md-3 col-lg-2" />
+    <ContentItem
       class="col-xs-12 col-sm-6 col-md-3 col-lg-2"
       v-for="content in contents"
       :content="content"
@@ -12,11 +12,11 @@
 <script>
 import { mapState, mapActions } from "vuex";
 
-import ContentCardCreate from "../components/ContentCardCreate.vue";
-import ContentCardItem from "../components/ContentCardItem.vue";
+import CreateContentItem from "./CreateContentItem.vue";
+import ContentItem from "./ContentItem.vue";
 
 export default {
-  components: { ContentCardCreate, ContentCardItem },
+  components: { CreateContentItem, ContentItem },
   computed: {
     ...mapState(["contents"]),
   },

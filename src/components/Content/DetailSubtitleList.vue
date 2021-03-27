@@ -15,9 +15,9 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import NoSubtitle from "./ContentDetailNoSubtitle";
-import SubtitleItem from "./ContentDetailSubtitleItem";
-import SubtitleBtns from "./ContentDetailSubtitleBtns";
+import NoSubtitle from "./DetailNoSubtitle.vue";
+import SubtitleItem from "./DetailSubtitleItem.vue";
+import SubtitleBtns from "./DetailSubtitleBtns.vue";
 
 export default {
   components: {

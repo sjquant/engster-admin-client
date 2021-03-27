@@ -1,8 +1,8 @@
 <template>
-  <div class="content-create-form col-12 q-pa-lg q-mt-xl">
-    <q-input label="Title" v-model="content.title" />
-    <q-input label="Year" v-model="content.year" />
-    <q-input label="Poster" v-model="content.poster" />
+  <div class="content-edit-form col-12 q-pa-lg q-mt-xl">
+    <q-input label="Title" v-model="newContent.title" />
+    <q-input label="Year" v-model="newContent.year" />
+    <q-input label="Poster" v-model="newContent.poster" />
 
     <div class="q-gutter-sm q-mt-sm genre-container">
       <div class="text-grey-7">Genres</div>
@@ -14,37 +14,37 @@
     </div>
     <q-separator class="q-my-sm" color="grey-5" />
     <div class="flex justify-end">
-      <q-btn class="q-mt-md" color="primary" @click="createContent">제출</q-btn>
+      <q-btn class="q-mt-md" color="primary" @click="editContent">수정</q-btn>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
-import TagSelector from "./share/TagSelector.vue";
+import TagSelector from "../share/TagSelector.vue";
 export default {
   components: {
     TagSelector,
   },
   data() {
     return {
-      content: {
-        title: "",
-        year: "",
-        poster: "",
-      },
+      newContent: {},
       selectedGenreIds: [],
     };
   },
   computed: {
-    ...mapState(["allGenres"]),
+    ...mapState(["content", "allGenres"]),
   },
-  created() {
+  async created() {
+    const id = this.$route.params.id;
     this.FETCH_ALL_GENRES();
+    const { title, year, poster, genres } = await this.GET_CONTENT(id);
+    this.newContent = { title, year, poster };
+    this.selectedGenreIds = genres.map(x => x.id);
   },
   methods: {
-    ...mapActions(["FETCH_ALL_GENRES", "CREATE_CONTENT"]),
-    async createContent() {
+    ...mapActions(["FETCH_ALL_GENRES", "GET_CONTENT", "UPDATE_CONTENT"]),
+    async editContent() {
       if (
         this.content.title === "" ||
         this.content.year === "" ||
@@ -59,7 +59,8 @@ export default {
         genre_ids: this.selectedGenreIds,
       };
       try {
-        await this.CREATE_CONTENT(content);
+        const id = this.$route.params.id;
+        await this.UPDATE_CONTENT({ id, content });
         this.$router.push({ name: "contentList" });
       } catch (e) {
         alert(e.message);
@@ -70,7 +71,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.content-create-form {
+.content-edit-form {
   max-width: 680px;
 
   .genre-container {

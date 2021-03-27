@@ -9,8 +9,8 @@
   </q-page>
 </template>
 <script>
-import StatusTabs from "../components/TranslationReviewStatusTabs.vue";
-import PendingTable from "../components/TranslationReviewPendingTable.vue";
+import StatusTabs from "../components/TranslationReview/StatusTabs.vue";
+import PendingTable from "../components/TranslationReview/PendingTable.vue";
 
 export default {
   components: {

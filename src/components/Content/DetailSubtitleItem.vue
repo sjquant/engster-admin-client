@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { time } from "../utils";
+import { time } from "../../utils";
 export default {
   props: {
     subtitle: Object,

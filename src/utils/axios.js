@@ -1,5 +1,6 @@
 import axios from "axios";
 import cookies from "axios/lib/helpers/cookies";
+import qs from "qs";
 
 const axiosObj = axios.create({
   baseURL: process.env.BASE_URL,
@@ -8,6 +9,7 @@ const axiosObj = axios.create({
     "Content-Type": "application/json",
   },
   withCredentials: true,
+  paramsSerializer: params => qs.stringify(params, { indices: false }),
 });
 
 export default {

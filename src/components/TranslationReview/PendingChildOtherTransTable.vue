@@ -4,7 +4,7 @@
       class="pending-other-trans-table q-mb-md"
       :data="data"
       :columns="columns"
-      :pagination.sync="pagination"
+      :pagination="pagination"
       no-data-label="해당 데이터가 없습니다."
       row-key="id"
       flat
@@ -31,6 +31,7 @@
         size="sm"
         :direction-links="!!maxPage"
         :max="maxPage"
+        @input="fetchTranslations"
       />
     </div>
   </div>
@@ -38,15 +39,8 @@
 <script>
 import { subtitleAPI } from "../../api";
 export default {
-  async created() {
-    const { data, count, limit } = await subtitleAPI.fetchTranslations(
-      this.subtitleId,
-      {
-        limit: 5,
-      }
-    );
-    this.data = data;
-    this.maxPage = Math.ceil(count / limit);
+  created() {
+    this.fetchTranslations(this.page);
   },
   props: {
     subtitleId: Number,
@@ -77,12 +71,32 @@ export default {
         },
       ],
       data: [],
-      pagination: {
-        page: 1,
-        rowsPerPage: 5,
-      },
+      page: 1,
+      limit: 5,
       maxPage: 0,
     };
+  },
+  computed: {
+    pagination() {
+      return {
+        page: this.page,
+        rowsPerPage: this.limit,
+      };
+    },
+  },
+  methods: {
+    async fetchTranslations(page) {
+      const offset = (page - 1) * this.limit;
+      const { data, count, limit } = await subtitleAPI.fetchTranslations(
+        this.subtitleId,
+        {
+          limit: this.limit,
+          offset: offset,
+        }
+      );
+      this.data = data;
+      if (page === 1) this.maxPage = Math.ceil(count / limit);
+    },
   },
 };
 </script>

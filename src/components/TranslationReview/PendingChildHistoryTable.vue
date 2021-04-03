@@ -46,8 +46,8 @@ import { translationAPI } from "../../api";
 import { translator } from "../../utils";
 
 export default {
-  async created() {
-    await this.fetchReviews(this.page);
+  created() {
+    this.fetchReviews(this.page);
   },
   props: {
     translationId: Number,
@@ -88,7 +88,6 @@ export default {
           name: "updated_at",
           label: "일시",
           align: "left",
-          sortable: true,
           field: "updated_at",
           style: "width: auto;",
         },
@@ -100,13 +99,11 @@ export default {
     };
   },
   computed: {
-    pagination: {
-      get() {
-        return {
-          page: this.page,
-          rowsPerPage: this.limit,
-        };
-      },
+    pagination() {
+      return {
+        page: this.page,
+        rowsPerPage: this.limit,
+      };
     },
   },
   methods: {

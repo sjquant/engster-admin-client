@@ -75,12 +75,12 @@ export const subtitleAPI = {
       .then(({ data }) => data);
   },
   fetchTranslations(subtitleId, options = {}) {
-    const { limit, cursor } = options;
+    const { limit, offset } = options;
     return request
       .get(`/subtitles/${subtitleId}/translations`, {
         params: {
           limit,
-          cursor,
+          offset,
         },
       })
       .then(({ data }) => data);

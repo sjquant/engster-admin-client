@@ -10,6 +10,11 @@
     dense
     hide-bottom
     binary-state-sort
+    virtual-scroll
+    :virtual-scroll-item-size="10"
+    :virtual-scroll-sticky-size-start="10"
+    :rows-per-page-options="[0]"
+    @virtual-scroll="onScroll"
   >
     <template v-slot:header="props">
       <q-tr :props="props">
@@ -60,6 +65,9 @@ export default {
   components: {
     PendingTableChild,
   },
+  created() {
+    this.fetchPendingTranslations();
+  },
   data() {
     return {
       columns: [
@@ -103,18 +111,32 @@ export default {
       pagination: {
         rowsPerPage: 0,
       },
+      limit: 20,
       data: [],
       expanded: [],
+      loading: false,
+      fetchTimeout: null,
+      hasMoreTranslations: true,
     };
   },
-  async created() {
-    const { data } = await translationAPI.fetchTranslations({
-      status: undefined,
-    });
-    this.data = data;
+  computed: {
+    offset() {
+      return this.data.length;
+    },
   },
   methods: {
     statusLabel: translator.reviewStatusLabel,
+    async fetchPendingTranslations() {
+      const { data } = await translationAPI.fetchTranslations({
+        status: "PENDING",
+        limit: this.limit,
+        offset: this.offset,
+      });
+      if (data.length == 0) {
+        this.hasMoreTranslations = false;
+      }
+      this.data.push(...data);
+    },
     expandRow(props) {
       const { row, expand } = props;
       if (expand) {
@@ -124,11 +146,32 @@ export default {
         this.expanded.push(row.id);
       }
     },
+    onScroll({ index }) {
+      if (!this.hasMoreTranslations) {
+        return;
+      }
+      async function fetchMoreTranslations() {
+        const lastIndex = this.data.length - 1;
+        if (!this.loading && index >= lastIndex - 10) {
+          this.loading = true;
+          try {
+            clearTimeout(this.fetchTimeout);
+            await this.fetchPendingTranslations();
+          } finally {
+            this.loading = false;
+          }
+        }
+      }
+      this.fetchTimeout = setTimeout(fetchMoreTranslations.bind(this), 200);
+    },
   },
 };
 </script>
 <style lang="scss">
 .translation-pending-table {
+  height: calc(100vh - 184px);
+  max-height: 800px;
+
   td > div {
     width: 100%;
     white-space: normal;

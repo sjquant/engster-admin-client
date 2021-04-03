@@ -185,12 +185,12 @@ export const translationAPI = {
       .then(({ data }) => data);
   },
   fetchReveiws(translationId, options = {}) {
-    const { limit = 20, cursor } = options;
+    const { limit = 20, offset } = options;
     return request
       .get(`/translations/${translationId}/reviews`, {
         params: {
           limit,
-          cursor,
+          offset,
         },
       })
       .then(({ data }) => data);

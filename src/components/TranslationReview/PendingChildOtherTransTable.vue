@@ -28,8 +28,8 @@
       <q-pagination
         v-model="pagination.page"
         unelevated
-        direction-links
         size="sm"
+        :direction-links="!!maxPage"
         :max="maxPage"
       />
     </div>

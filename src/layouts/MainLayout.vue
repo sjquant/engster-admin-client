@@ -63,7 +63,10 @@ export default {
           icon: "view_list",
           path: "/contents",
           activeFunc: () => {
-            return this.$route.path.startsWith("/contents");
+            return (
+              this.$route.path === "/" ||
+              this.$route.path.startsWith("/contents")
+            );
           },
         },
         {

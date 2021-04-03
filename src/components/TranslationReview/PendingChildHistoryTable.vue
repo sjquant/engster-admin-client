@@ -4,7 +4,7 @@
       class="pending-history-table q-mb-md"
       :data="data"
       :columns="columns"
-      :pagination.sync="pagination"
+      :pagination="pagination"
       no-data-label="해당 데이터가 없습니다."
       row-key="id"
       flat
@@ -31,11 +31,12 @@
     </q-table>
     <div class="row justify-center q-mt-md">
       <q-pagination
-        v-model="pagination.page"
+        v-model="page"
         unelevated
-        direction-links
         size="sm"
+        :direction-links="!!maxPage"
         :max="maxPage"
+        @input="fetchReviews"
       />
     </div>
   </div>
@@ -46,11 +47,7 @@ import { translator } from "../../utils";
 
 export default {
   async created() {
-    const { data, count, limit } = await translationAPI.fetchReveiws(
-      this.translationId
-    );
-    this.data = data;
-    this.maxPage = Math.ceil(count / limit);
+    await this.fetchReviews(this.page);
   },
   props: {
     translationId: Number,
@@ -97,15 +94,35 @@ export default {
         },
       ],
       data: [],
-      pagination: {
-        page: 1,
-        rowsPerPage: 5,
-      },
+      limit: 5,
+      page: 1,
       maxPage: 0,
     };
   },
+  computed: {
+    pagination: {
+      get() {
+        return {
+          page: this.page,
+          rowsPerPage: this.limit,
+        };
+      },
+    },
+  },
   methods: {
     statusLabel: translator.reviewStatusLabel,
+    async fetchReviews(page) {
+      const offset = (page - 1) * this.limit;
+      const { data, count } = await translationAPI.fetchReveiws(
+        this.translationId,
+        {
+          limit: this.limit,
+          offset: offset,
+        }
+      );
+      this.data = data;
+      if (page === 1) this.maxPage = Math.ceil(count / this.limit);
+    },
   },
 };
 </script>

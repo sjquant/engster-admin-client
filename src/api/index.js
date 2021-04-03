@@ -173,7 +173,7 @@ export const translationAPI = {
     });
   },
   fetchTranslations(options = {}) {
-    const { status, limit = 20, offset = 0 } = options;
+    const { status, limit = 20, offset } = options;
     return request
       .get("/translations", {
         params: {

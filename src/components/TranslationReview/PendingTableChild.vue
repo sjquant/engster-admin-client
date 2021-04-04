@@ -13,8 +13,8 @@
 </template>
 <script>
 import PendingChildStatusTabs from "./PendingChildStatusTabs.vue";
-import PendingChildHistoryTable from "./PendingChildHistoryTable.vue";
-import PendingChildOtherTransTable from "./PendingChildOtherTransTable.vue";
+import PendingChildHistoryTable from "./ReviewHistoryTable.vue";
+import PendingChildOtherTransTable from "./OtherTransTable.vue";
 
 export default {
   components: {

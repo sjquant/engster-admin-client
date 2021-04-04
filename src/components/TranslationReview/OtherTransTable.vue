@@ -90,6 +90,7 @@ export default {
       const { data, count, limit } = await subtitleAPI.fetchTranslations(
         this.subtitleId,
         {
+          status: "APPROVED",
           limit: this.limit,
           offset: offset,
         }

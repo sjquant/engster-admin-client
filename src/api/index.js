@@ -75,10 +75,11 @@ export const subtitleAPI = {
       .then(({ data }) => data);
   },
   fetchTranslations(subtitleId, options = {}) {
-    const { limit, offset } = options;
+    const { status, limit, offset } = options;
     return request
       .get(`/subtitles/${subtitleId}/translations`, {
         params: {
+          status,
           limit,
           offset,
         },
@@ -193,6 +194,11 @@ export const translationAPI = {
           offset,
         },
       })
+      .then(({ data }) => data);
+  },
+  createReview(translationId, { status, message }) {
+    return request
+      .post(`/translations/${translationId}/reviews`, { status, message })
       .then(({ data }) => data);
   },
 };

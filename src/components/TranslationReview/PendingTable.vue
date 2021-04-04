@@ -1,68 +1,83 @@
 <template>
-  <q-table
-    class="translation-pending-table"
-    :data="data"
-    :columns="columns"
-    :pagination="pagination"
-    :expanded.sync="expanded"
-    row-key="id"
-    flat
-    dense
-    hide-bottom
-    binary-state-sort
-    virtual-scroll
-    :virtual-scroll-item-size="10"
-    :virtual-scroll-sticky-size-start="10"
-    :rows-per-page-options="[0]"
-    @virtual-scroll="onScroll"
-  >
-    <template v-slot:header="props">
-      <q-tr :props="props">
-        <q-th
-          v-for="col in props.cols"
-          :key="col.name"
+  <div>
+    <q-table
+      class="translation-pending-table"
+      :data="data"
+      :columns="columns"
+      :pagination="pagination"
+      :expanded.sync="expanded"
+      row-key="id"
+      flat
+      dense
+      hide-bottom
+      binary-state-sort
+      virtual-scroll
+      :virtual-scroll-item-size="46"
+      :virtual-scroll-sticky-size-start="46"
+      :rows-per-page-options="[0]"
+      @virtual-scroll="onScroll"
+    >
+      <template v-slot:header="props">
+        <q-tr :props="props">
+          <q-th
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+            :style="col.style"
+          >
+            {{ col.label }}
+          </q-th>
+        </q-tr>
+      </template>
+      <template v-slot:body="props">
+        <q-tr
           :props="props"
-          :style="col.style"
+          @click="expandRow(props)"
+          :class="['cursor-pointer', { expanded: props.expand }]"
         >
-          {{ col.label }}
-        </q-th>
-      </q-tr>
-    </template>
-    <template v-slot:body="props">
-      <q-tr
-        :props="props"
-        @click="expandRow(props)"
-        :class="['cursor-pointer', { expanded: props.expand }]"
-      >
-        <q-td v-for="col in props.cols" :key="col.name">
-          <q-btn
-            :label="statusLabel(col.value)"
-            color="primary"
-            unelevated
-            v-if="col.name === 'status'"
-            @click.stop
-          />
-          <div v-else>{{ col.value }}</div>
-        </q-td>
-      </q-tr>
-      <q-tr v-if="props.expand" :props="props" no-hover>
-        <q-td :colspan="props.cols.length">
-          <PendingTableChild
-            :translation-id="props.row.id"
-            :subtitle-id="props.row.line_id"
-          />
-        </q-td>
-      </q-tr>
-    </template>
-  </q-table>
+          <q-td v-for="col in props.cols" :key="col.name">
+            <q-btn
+              :label="statusLabel(col.value)"
+              color="primary"
+              unelevated
+              v-if="col.name === 'status'"
+              @click.stop="onStatusBtnClicked(props.row)"
+            />
+            <div v-else>{{ col.value }}</div>
+          </q-td>
+        </q-tr>
+        <q-tr
+          class="q-virtual-scroll--with-prev"
+          no-hover
+          :props="props"
+          v-if="props.expand"
+        >
+          <q-td :colspan="props.cols.length">
+            <PendingTableChild
+              :translation-id="props.row.id"
+              :subtitle-id="props.row.line_id"
+            />
+          </q-td>
+        </q-tr>
+      </template>
+    </q-table>
+    <ReviewDialog
+      v-model="dialogOn"
+      :id="currentTranslationId"
+      :original-status="currentStatus"
+      @status-changed="changeStatus"
+    />
+  </div>
 </template>
 <script>
 import { translationAPI } from "../../api";
 import { translator } from "../../utils";
+import ReviewDialog from "./ReviewDialog.vue";
 import PendingTableChild from "./PendingTableChild.vue";
 
 export default {
   components: {
+    ReviewDialog,
     PendingTableChild,
   },
   created() {
@@ -117,6 +132,10 @@ export default {
       loading: false,
       fetchTimeout: null,
       hasMoreTranslations: true,
+      // For dialog
+      dialogOn: false,
+      currentTranslationId: null,
+      currentStatus: null,
     };
   },
   computed: {
@@ -152,7 +171,7 @@ export default {
       }
       async function fetchMoreTranslations() {
         const lastIndex = this.data.length - 1;
-        if (!this.loading && index >= lastIndex - 10) {
+        if (!this.loading && index >= lastIndex - 5) {
           this.loading = true;
           try {
             clearTimeout(this.fetchTimeout);
@@ -163,6 +182,17 @@ export default {
         }
       }
       this.fetchTimeout = setTimeout(fetchMoreTranslations.bind(this), 200);
+    },
+    onStatusBtnClicked(data) {
+      this.dialogOn = true;
+      this.currentTranslationId = data.id;
+      this.currentStatus = data.status;
+    },
+    changeStatus({ id, status }) {
+      const idx = this.data.findIndex(x => x.id === id);
+      if (idx >= 0) {
+        this.$set(this.data[idx], "status", status);
+      }
     },
   },
 };

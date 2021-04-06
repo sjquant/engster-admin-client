@@ -131,7 +131,7 @@ export default {
       expanded: [],
       loading: false,
       fetchTimeout: null,
-      hasMoreTranslations: true,
+      hasMoreData: true,
       // For dialog
       dialogOn: false,
       currentTranslationId: null,
@@ -151,8 +151,8 @@ export default {
         limit: this.limit,
         offset: this.offset,
       });
-      if (data.length == 0) {
-        this.hasMoreTranslations = false;
+      if (data.length === 0) {
+        this.hasMoreData = false;
       }
       this.data.push(...data);
     },
@@ -166,10 +166,10 @@ export default {
       }
     },
     onScroll({ index }) {
-      if (!this.hasMoreTranslations) {
+      if (!this.hasMoreData) {
         return;
       }
-      async function fetchMoreTranslations() {
+      async function fetchMore() {
         const lastIndex = this.data.length - 1;
         if (!this.loading && index >= lastIndex - 5) {
           this.loading = true;
@@ -181,7 +181,7 @@ export default {
           }
         }
       }
-      this.fetchTimeout = setTimeout(fetchMoreTranslations.bind(this), 200);
+      this.fetchTimeout = setTimeout(fetchMore.bind(this), 200);
     },
     onStatusBtnClicked(data) {
       this.dialogOn = true;

@@ -1,81 +1,78 @@
 <template>
   <div>
     <q-table
-      class="pending-history-table q-mb-md"
+      class="review-history-table"
       :data="data"
       :columns="columns"
       :pagination="pagination"
-      no-data-label="해당 데이터가 없습니다."
       row-key="id"
       flat
+      hide-bottom
       binary-state-sort
-      hide-pagination
+      virtual-scroll
+      :virtual-scroll-item-size="46"
+      :virtual-scroll-sticky-size-start="46"
+      :rows-per-page-options="[0]"
+      @virtual-scroll="onScroll"
     >
-      <template v-slot:header="props">
+      <template v-slot:body="props">
         <q-tr :props="props">
-          <q-th
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-            :style="col.style"
-          >
-            {{ col.label }}
-          </q-th>
+          <q-td v-for="col in props.cols" :key="col.name">
+            <div v-if="col.name === 'status'">{{ statusLabel(col.value) }}</div>
+            <div v-else>{{ col.value }}</div>
+          </q-td>
         </q-tr>
       </template>
-      <template v-slot:body-cell-status="props">
-        <q-td :props="props">
-          {{ statusLabel(props.value) }}
-        </q-td>
-      </template>
     </q-table>
-    <div class="row justify-center q-mt-md">
-      <q-pagination
-        v-model="page"
-        unelevated
-        size="sm"
-        :direction-links="!!maxPage"
-        :max="maxPage"
-        @input="fetchReviews"
-      />
-    </div>
   </div>
 </template>
 <script>
-import { translationAPI } from "../../api";
 import { translator } from "../../utils";
+import { translationReviewAPI } from "../../api";
 
 export default {
+  components: {},
   created() {
-    this.fetchReviews(this.page);
-  },
-  props: {
-    translationId: Number,
+    this.fetchReviewHistory();
   },
   data() {
     return {
       columns: [
         {
+          name: "subtitle",
+          label: "자막",
+          align: "left",
+          field: "line",
+          style: "width: 25%;",
+        },
+        {
           name: "translation",
           label: "번역",
           align: "left",
           field: "translation",
-          style: "width: 50%;",
+          style: "width: 25%;",
         },
-
         {
           name: "message",
           label: "메모",
           align: "left",
           field: "message",
-          style: "width: 30%;",
+          style: "width: 15%;",
         },
         {
           name: "status",
           label: "상태",
           align: "left",
           field: "status",
-          style: "min-width: 56px;",
+          style: "width: auto;",
+        },
+        {
+          name: "updated_at",
+          label: "일시",
+          align: "left",
+          sortable: true,
+          field: "updated_at",
+          style: "width: auto;",
         },
         {
           name: "reviewer_nickname",
@@ -84,48 +81,64 @@ export default {
           field: "reviewer_nickname",
           style: "width: auto;",
         },
-        {
-          name: "updated_at",
-          label: "일시",
-          align: "left",
-          field: "updated_at",
-          style: "width: auto;",
-        },
       ],
       data: [],
-      limit: 5,
-      page: 1,
-      maxPage: 0,
+      limit: 20,
+      fetchTimeout: null,
+      loading: false,
+      pagination: {
+        rowsPerPage: 0,
+      },
+      hasMoreData: true,
     };
   },
   computed: {
-    pagination() {
-      return {
-        page: this.page,
-        rowsPerPage: this.limit,
-      };
+    cursor() {
+      if (this.data.length === 0) return;
+      const lastIndex = this.data.length - 1;
+      return this.data[lastIndex].id;
     },
   },
   methods: {
     statusLabel: translator.reviewStatusLabel,
-    async fetchReviews(page) {
-      const offset = (page - 1) * this.limit;
-      const { data, count } = await translationAPI.fetchReveiws(
-        this.translationId,
-        {
-          limit: this.limit,
-          offset: offset,
+    async fetchReviewHistory() {
+      const { data } = await translationReviewAPI.fetchReviews({
+        limit: this.limit,
+        cursor: this.cursor,
+      });
+      if (data.length === 0) {
+        this.hasMoreData = false;
+        return;
+      }
+      this.data.push(...data);
+    },
+    onScroll({ index }) {
+      if (!this.hasMoreData) {
+        return;
+      }
+      async function fetchMore() {
+        const lastIndex = this.data.length - 1;
+        if (!this.loading && index >= lastIndex - 5) {
+          this.loading = true;
+          try {
+            clearTimeout(this.fetchTimeout);
+            await this.fetchReviewHistory();
+          } finally {
+            this.loading = false;
+          }
         }
-      );
-      this.data = data;
-      if (page === 1) this.maxPage = Math.ceil(count / this.limit);
+      }
+      this.fetchTimeout = setTimeout(fetchMore.bind(this), 200);
     },
   },
 };
 </script>
 <style lang="scss">
-.pending-history-table {
-  td {
+.review-history-table {
+  height: calc(100vh - 184px);
+  max-height: 800px;
+
+  td > div {
     width: 100%;
     white-space: normal;
   }
@@ -148,10 +161,6 @@ export default {
 
   &.q-table--loading thead tr:last-child th {
     top: 48px;
-  }
-
-  tbody tr.expanded td:first-child {
-    border-left: 4px solid $primary;
   }
 }
 </style>

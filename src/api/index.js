@@ -198,7 +198,35 @@ export const translationAPI = {
   },
   createReview(translationId, { status, message }) {
     return request
-      .post(`/translations/${translationId}/reviews`, { status, message })
+      .post(`/translations/${translationId}/reviews`, {
+        status,
+        message,
+      })
+      .then(({ data }) => data);
+  },
+};
+
+export const translationReviewAPI = {
+  /**
+   * @description
+   * Fetch translation review histories
+   *
+   * @param {Object} options
+   * @param {Number} options.limit
+   * @param {Number} options.cursor
+   * @param {Array.<String>} options.status
+   * @returns review data
+   */
+  fetchReviews(options = {}) {
+    const { limit = 20, cursor, status } = options;
+    return request
+      .get("/translation-reviews", {
+        params: {
+          limit,
+          cursor,
+          status,
+        },
+      })
       .then(({ data }) => data);
   },
 };

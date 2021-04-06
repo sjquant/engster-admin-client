@@ -149,9 +149,5 @@ export default {
   &.q-table--loading thead tr:last-child th {
     top: 48px;
   }
-
-  tbody tr.expanded td:first-child {
-    border-left: 4px solid $primary;
-  }
 }
 </style>

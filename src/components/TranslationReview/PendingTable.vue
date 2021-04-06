@@ -47,7 +47,7 @@
           </q-td>
         </q-tr>
         <q-tr
-          class="q-virtual-scroll--with-prev"
+          class="q-virtual-scroll--with-prev child-tr"
           no-hover
           :props="props"
           v-if="props.expand"
@@ -229,6 +229,10 @@ export default {
 
   tbody tr.expanded td:first-child {
     border-left: 4px solid $primary;
+  }
+
+  tbody tr.child-tr > td {
+    border-bottom: 1px solid $primary;
   }
 }
 </style>

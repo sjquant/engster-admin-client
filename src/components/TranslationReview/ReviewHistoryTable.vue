@@ -15,23 +15,59 @@
       :rows-per-page-options="[0]"
       @virtual-scroll="onScroll"
     >
+      <template v-slot:header="props">
+        <q-tr :props="props">
+          <q-th
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+            :style="col.style"
+          >
+            {{ col.label }}
+          </q-th>
+        </q-tr>
+      </template>
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td v-for="col in props.cols" :key="col.name">
-            <div v-if="col.name === 'status'">{{ statusLabel(col.value) }}</div>
+            <div v-if="col.name === 'status'">
+              <q-btn
+                icon="mode_edit"
+                size="sm"
+                color="grey-7"
+                flat
+                dense
+                round
+                @click.stop="onStatusBtnClicked(props.row)"
+              />
+              {{ statusLabel(col.value) }}
+            </div>
+            <div v-else-if="col.name === 'updated_at'">
+              {{ formatDate(col.value) }}
+            </div>
             <div v-else>{{ col.value }}</div>
           </q-td>
         </q-tr>
       </template>
     </q-table>
+    <ReviewDialog
+      v-model="dialogOn"
+      :id="currentTranslationId"
+      :original-status="currentStatus"
+      @status-changed="changeStatus"
+    />
   </div>
 </template>
 <script>
+import moment from "moment";
 import { translator } from "../../utils";
 import { translationReviewAPI } from "../../api";
+import ReviewDialog from "./ReviewDialog.vue";
 
 export default {
-  components: {},
+  components: {
+    ReviewDialog,
+  },
   created() {
     this.fetchReviewHistory();
   },
@@ -57,14 +93,14 @@ export default {
           label: "메모",
           align: "left",
           field: "message",
-          style: "width: 15%;",
+          style: "width: 20%;",
         },
         {
           name: "status",
           label: "상태",
           align: "left",
           field: "status",
-          style: "width: auto;",
+          style: "min-width: 80px;",
         },
         {
           name: "updated_at",
@@ -90,6 +126,10 @@ export default {
         rowsPerPage: 0,
       },
       hasMoreData: true,
+      // For dialog
+      dialogOn: false,
+      currentTranslationId: null,
+      currentStatus: null,
     };
   },
   computed: {
@@ -101,16 +141,25 @@ export default {
   },
   methods: {
     statusLabel: translator.reviewStatusLabel,
-    async fetchReviewHistory() {
+    async fetchReviewHistory(options = {}) {
+      const { reset } = options;
+      const cursor = reset ? undefined : this.cursor;
       const { data } = await translationReviewAPI.fetchReviews({
         limit: this.limit,
-        cursor: this.cursor,
+        cursor,
       });
       if (data.length === 0) {
         this.hasMoreData = false;
         return;
       }
-      this.data.push(...data);
+      if (reset) {
+        this.data = data;
+      } else {
+        this.data.push(...data);
+      }
+    },
+    formatDate(dt) {
+      return moment(dt).format("YY.MM.DD HH:mm:ss");
     },
     onScroll({ index }) {
       if (!this.hasMoreData) {
@@ -129,6 +178,14 @@ export default {
         }
       }
       this.fetchTimeout = setTimeout(fetchMore.bind(this), 200);
+    },
+    onStatusBtnClicked(data) {
+      this.dialogOn = true;
+      this.currentTranslationId = data.translation_id;
+      this.currentStatus = data.status;
+    },
+    changeStatus() {
+      this.fetchReviewHistory({ reset: true });
     },
   },
 };

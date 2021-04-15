@@ -43,6 +43,9 @@
               v-if="col.name === 'status'"
               @click.stop="onStatusBtnClicked(props.row)"
             />
+            <div v-else-if="col.name === 'updated_at'">
+              {{ formatDate(col.value) }}
+            </div>
             <div v-else>{{ col.value }}</div>
           </q-td>
         </q-tr>
@@ -70,6 +73,7 @@
   </div>
 </template>
 <script>
+import moment from "moment";
 import { translationAPI } from "../../api";
 import { translator } from "../../utils";
 import ReviewDialog from "./ReviewDialog.vue";
@@ -155,6 +159,9 @@ export default {
         this.hasMoreData = false;
       }
       this.data.push(...data);
+    },
+    formatDate(dt) {
+      return moment(dt).format("YY.MM.DD HH:mm:ss");
     },
     expandRow(props) {
       const { row, expand } = props;

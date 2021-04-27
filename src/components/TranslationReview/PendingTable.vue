@@ -173,7 +173,7 @@ export default {
       }
     },
     onScroll({ index }) {
-      if (!this.hasMoreData) {
+      if (!index || !this.hasMoreData) {
         return;
       }
       async function fetchMore() {

@@ -162,7 +162,7 @@ export default {
       return moment(dt).format("YY.MM.DD HH:mm:ss");
     },
     onScroll({ index }) {
-      if (!this.hasMoreData) {
+      if (!index || !this.hasMoreData) {
         return;
       }
       async function fetchMore() {

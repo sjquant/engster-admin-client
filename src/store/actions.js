@@ -15,6 +15,25 @@ export default {
     const { user } = await authAPI.refreshToken();
     commit("SET_USER", user);
   },
+  async VALIDATE_TOKEN({ commit, dispatch }) {
+    try {
+      const { user, expired_at } = await authAPI.validateToken();
+      commit("SET_USER", user);
+      if (new Date(expired_at) - new Date() < 60 * 60 * 1000) {
+        await dispatch("REFRESH_TOKEN");
+      }
+    } catch (error) {
+      if (
+        error.response.status === 401 &&
+        error.response.data?.msg === "Signature has expired"
+      ) {
+        await dispatch("REFRESH_TOKEN");
+      } else {
+        console.error(error);
+        await dispatch("SIGN_OUT");
+      }
+    }
+  },
   async SIGN_OUT({ commit }) {
     commit("CLEAR_USER");
     await authAPI.signOut();

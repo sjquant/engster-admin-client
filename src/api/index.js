@@ -31,6 +31,11 @@ export const authAPI = {
       return data;
     });
   },
+  validateToken() {
+    return request.post("/auth/validate-token").then(({ data }) => {
+      return data;
+    });
+  },
   signOut() {
     return request.post("/auth/sign-out").then(({ data }) => data);
   },

@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
@@ -87,10 +87,20 @@ export default {
     };
   },
   computed: {
+    ...mapState(["user"]),
     ...mapGetters(["isAdmin"]),
   },
+  created() {
+    // Validate First
+    if (this.user) this.VALIDATE_TOKEN();
+    this._interval = setInterval(() => {
+      if (this.user) {
+        this.VALIDATE_TOKEN();
+      }
+    }, 3600000);
+  },
   methods: {
-    ...mapActions(["SIGN_OUT"]),
+    ...mapActions(["SIGN_OUT", "VALIDATE_TOKEN"]),
     route(path) {
       // Catch for dealing with navigation duplicate failure
       this.$router.push(path).catch(() => {});

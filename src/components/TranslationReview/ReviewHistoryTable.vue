@@ -161,13 +161,17 @@ export default {
     formatDate(dt) {
       return moment(dt).format("YY.MM.DD HH:mm:ss");
     },
-    onScroll({ index }) {
+    onScroll({ index, to }) {
       if (!index || !this.hasMoreData) {
         return;
       }
       async function fetchMore() {
         const lastIndex = this.data.length - 1;
-        if (!this.loading && index >= lastIndex - 5) {
+        if (
+          !this.loading &&
+          lastIndex - index < this.limit &&
+          to == lastIndex
+        ) {
           this.loading = true;
           try {
             clearTimeout(this.fetchTimeout);
@@ -177,7 +181,7 @@ export default {
           }
         }
       }
-      this.fetchTimeout = setTimeout(fetchMore.bind(this), 200);
+      this.fetchTimeout = setTimeout(fetchMore.bind(this), 500);
     },
     onStatusBtnClicked(data) {
       this.dialogOn = true;
